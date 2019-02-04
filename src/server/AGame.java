@@ -15,6 +15,7 @@ public class AGame {
 	private static AGame instance;
 	private HashMap<Player, String> aGame = new HashMap<Player, String>();
 
+	//COMMENT ON TEST BRANCH
 	
 	/**
 	 * creates instance if none exists
