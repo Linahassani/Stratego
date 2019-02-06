@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -32,6 +33,11 @@ public class UIConnected extends JFrame implements ActionListener {
 	 */
 	public UIConnected(Controller ctrl) {
 		this.ctrl = ctrl;
+		
+		//Added code below.
+		setLayout(new BorderLayout());
+		this.add(new JLabel("listening for incomming clients.."),BorderLayout.NORTH);
+		
 		setMinimumSize(new Dimension(250, 400));
 		setPreferredSize(new Dimension(250, 400));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

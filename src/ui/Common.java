@@ -25,7 +25,7 @@ import game.SoundPlayer;
 
 /**
  * Class for creating & customizing UI common components.
- * @author Henrik Sandström
+ * @author Henrik Sandstrï¿½m
  */
 public abstract class Common {
 	
@@ -37,7 +37,7 @@ public abstract class Common {
 	private final static File NORMAL_BACKGROUND = new File("files/images/background/panel_beige.png");
 	private final static File INNER_BACKGROUND = new File("files/images/background/panel_beigeLight.png");
 	private final static File MENU_BACKGROUND = new File("files/images/background/menuBackground.jpg");
-	private final static File FONT_IMAGE = new File("files/font/kenvector_future.ttf");	
+	private final static File FONT_IMAGE = new File("files/font/Roboto-Regular.ttf");	
 	
 	/**
 	 * Creates & returns a game common JButton.
