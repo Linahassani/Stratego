@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+//Test comment on DEVELOPER BRANCH
+
 /**
  * class that holds player object with its opponent player. Singleton class
  * @author Anders Qvist

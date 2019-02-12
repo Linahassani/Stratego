@@ -20,7 +20,7 @@ import pawns.Pawn;
 /**
  * The main game JFrame/window. Holds all UI panels.
  * Handles communication between panels/cards and the controller.
- * @author Henrik Sandström
+ * @author Henrik Sandstrï¿½m
  */
 public class Viewer extends JFrame{
 

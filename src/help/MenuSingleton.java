@@ -42,21 +42,21 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		PLACE, MOVE, ATTACK, ONLINE
 	};
 
-	private String[] listItems = { "Objectives", "Place", "Remove", "Move", "Attack", "Online","Pawns" };
+	private String[] listItems = { "Objectives", "Place", "Remove", "Move", "Attack", "Online", "Pawns" };
 	private JList<String> list = new JList<String>(listItems);
 	private JScrollPane scrollList = new JScrollPane(list);
 	private JLabel listLabel = new JLabel("Choose a help topic");
 	private JTextArea textArea = new JTextArea("\n \n \n \n Choose a help topic");
 	private JScrollPane scrollTextArea = new JScrollPane(textArea);
 	private HelpTopics helpTopics = new HelpTopics();
-	private static MenuSingleton menuSingleton= null;
+	private static MenuSingleton menuSingleton = null;
 
 	private MenuSingleton() {
 		System.out.println("MenuSingleton - init");
 		this.setPreferredSize(new Dimension(500, 300));
 		this.setLayout(new FlowLayout());
 		this.setOpaque(true);
-//		scrollList.setPreferredSize(new Dimension(80, 200));
+		// scrollList.setPreferredSize(new Dimension(80, 200));
 		scrollList.setAlignmentX(CENTER_ALIGNMENT);
 		scrollList.setOpaque(true);
 		list.addListSelectionListener(this);
@@ -69,30 +69,44 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		textArea.setWrapStyleWord(true);
 		this.add(scrollList);
 		this.add(textArea);
+		// So the user can't update or delete instructions.
+		textArea.setEditable(false);
 
-		JFrame frame = new JFrame();
-//		frame.setPreferredSize(new Dimension(500, 400));
-		
-		frame.setResizable(false);
-		frame.setLayout(new FlowLayout());
+		// JFrame frame = new JFrame();
+		// frame.setPreferredSize(new Dimension(500, 400));
+
+		// frame.setResizable(false);
+		// frame.setLayout(new FlowLayout());
 		// frame.add(listLabel);
 		// frame.add(scrollList);
 		// frame.add(scrollTextArea);
-		frame.add(this);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setVisible(true);
-		frame.pack();
+		// frame.add(this);
+		// frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		// frame.setVisible(true);
+		// frame.pack();
 		Common.setFont();
 		this.setCursor(Common.getCursor());
 
 		// repaint();
 
 	}
+
 	public static MenuSingleton getMenuSingleton() {
-		if(menuSingleton==null) {
-			menuSingleton=new MenuSingleton();
+		if (menuSingleton == null) {
+			menuSingleton = new MenuSingleton();
 		}
 		return menuSingleton;
+	}
+
+	public void showHelpMenu() {
+		JFrame frame = new JFrame();
+
+		frame.setResizable(false);
+		frame.setLayout(new FlowLayout());
+		frame.add(this);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setVisible(true);
+		frame.pack();
 	}
 
 	protected void paintComponent(Graphics g) {
