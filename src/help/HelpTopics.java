@@ -48,7 +48,7 @@ public class HelpTopics {
 		topics.put("Move", move);
 		topics.put("Remove", remove);
 		topics.put("Attack", attack);
-		topics.put("Online", online);
+		topics.put("Online", online); 
 		topics.put("Pawns", pawns);
 	}
 	
