@@ -441,7 +441,9 @@ public abstract class Logic {
 
 		if (defender instanceof Flag) {
 			if (attacker.getColor() == Color.BLUE) {
+				
 				winner(game.getBluePlayer());
+			
 				System.out.println("Blue player won");
 			} else {
 				winner(game.getRedPlayer());
