@@ -33,6 +33,7 @@ public class Viewer extends JFrame{
 	private CardLayout cards;
 	private LobbyUI lobby;
 	private HighScoresUI highScores;
+	private HelpUI help; //Nytt
 	private Controller controller;
 	private Matrix matrix;
 	private int defaultWidth, defaultHeight;
@@ -72,6 +73,8 @@ public class Viewer extends JFrame{
 		mainPanel.add(lobby, "Lobby");
 		highScores = new HighScoresUI(this);
 		mainPanel.add(highScores, "HighScores");
+		help = new HelpUI(this);
+		mainPanel.add(help, "Help");
 
 		add(mainPanel);	
 		pack();		

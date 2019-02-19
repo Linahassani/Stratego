@@ -998,3 +998,25 @@
 
 2018:05:27:18:43:04 ClientHandler : run java.net.SocketException: Socket closed-2
 
+2019:02:19:12:28:53 New user : hej  connected with ip : /127.0.0.1
+
+2019:02:19:12:28:53 New user : hahaha  connected with ip : /127.0.0.1
+
+2019:02:19:12:28:53 New game between : hej  and hahaha  from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:19:12:28:53 Username : hej  has FORFEIT the game/127.0.0.1
+
+2019:02:19:12:28:53 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:19:12:28:53 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:19:12:31:06 New user : yunfa connected with ip : /127.0.0.1
+
+2019:02:19:12:31:06 New user : yunfatest connected with ip : /127.0.0.1
+
+2019:02:19:12:31:06 New game between : yunfa and yunfatest from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:19:12:31:06 Username : yunfatest has FORFEIT the game/127.0.0.1
+
+2019:02:19:12:31:06 ClientHandler : run java.net.SocketException: Socket closed-2
+
