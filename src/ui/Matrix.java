@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -417,6 +418,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 						} else if (s.equals("WINNER")) {
 							animationPanelGraphics.drawImage(ImageIO.read(new File("files/images/fireworks.gif")), 0, 0,
 									getWidth(), getHeight(), Matrix.this);
+
 						}
 						repaint();
 						timer++;
@@ -425,7 +427,12 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 						e.printStackTrace();
 					}
 				}
+				if (s.equals("LOOSER")) {
+					JOptionPane.showMessageDialog(null, "You lost!");
+				} else if (s.equals("WINNER")) {
+					JOptionPane.showMessageDialog(null, "You won!!");
 
+				}
 			}
 		});
 
