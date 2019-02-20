@@ -440,6 +440,7 @@ public abstract class Logic {
 	public Pawn fight(Pawn attacker, Pawn defender) {
 
 		if (defender instanceof Flag) {
+			
 			if (attacker.getColor() == Color.BLUE) {
 				winner(game.getBluePlayer());
 				System.out.println("Blue player won");

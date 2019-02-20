@@ -151,10 +151,10 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 				if (pawn instanceof Empty && viewer.isInPlayerArea(new Position(row, col))) {
 					if (row >= BLUE_ROW_START) {
 						pawn.add(new JLabel(imgAddPawnBlue));
-					} else {
 						pawn.add(new JLabel(imgAddPawnRed));
-					}
 
+//					} else {
+					}
 				}
 			}
 		}

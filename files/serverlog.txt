@@ -998,3 +998,55 @@
 
 2018:05:27:18:43:04 ClientHandler : run java.net.SocketException: Socket closed-2
 
+2019:02:13:15:49:51  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:13:15:49:40 New user : angie connected with ip : /127.0.0.1
+
+2019:02:13:15:49:40 New user : what connected with ip : /127.0.0.1
+
+2019:02:13:15:49:40 New game between : angie and what from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:13:15:49:40 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:13:15:49:40 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:13:15:52:46 New user : angie connected with ip : /127.0.0.1
+
+2019:02:13:15:53:06  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:13:15:52:46 New user : 4444 connected with ip : /127.0.0.1
+
+2019:02:13:15:52:46 New game between : angie and 4444 from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:13:15:52:46 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:19:12:30:55  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:19:12:30:50 New user : whaaa connected with ip : /127.0.0.1
+
+2019:02:19:12:31:21  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:19:12:30:50 New user : geeeee connected with ip : /127.0.0.1
+
+2019:02:19:12:30:50 New game between : whaaa and geeeee from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:19:12:30:50 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:19:12:30:50 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:20:10:48:50  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:20:10:48:59  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:20:10:48:45 New user : angie connected with ip : /127.0.0.1
+
+2019:02:20:10:48:45 New user : Yun- connected with ip : /127.0.0.1
+
+2019:02:20:10:48:45 New game between : angie and Yun- from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:20:10:48:45 ClientHandler : send angie with ip :/127.0.0.1has disconnectedjava.net.SocketException: Connection reset by peer: socket write error-2
+
+2019:02:20:10:48:45 ClientHandler : disconnected angie with ip :/127.0.0.1has disconnectedjava.net.SocketException: Socket closed-1
+
+2019:02:20:10:48:45 ClientHandler : run java.net.SocketException: socket closed-2
+

@@ -31,7 +31,7 @@ public class HelpButtonSingleton extends JButton implements ActionListener {
 	private HelpButtonSingleton() {
 		new Thread(new Runnable() {
 			public void run() {
-				HelpButtonSingleton.this.setText("?");
+				HelpButtonSingleton.this.setText("Help");
 				HelpButtonSingleton.this.setPressedIcon(PRESSED_BUTTON);
 				HelpButtonSingleton.this.setIcon(NORMAL_BUTTON);
 				HelpButtonSingleton.this.setContentAreaFilled(false);

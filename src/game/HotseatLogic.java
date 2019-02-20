@@ -33,9 +33,9 @@ public class HotseatLogic extends Logic {
 		setGame(new Game(new Player(Color.BLUE), new Player(Color.RED)));
 
 		setState(State.SETUP_BLUE);
-
+		
 		setPawnList(new PawnList(Pawn.Color.BLUE));
-
+		
 		super.newGame();
 	}
 

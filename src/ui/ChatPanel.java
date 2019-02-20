@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,7 +22,7 @@ import javax.swing.border.MatteBorder;
  * @author Henrik Sandström
  */
 public class ChatPanel extends JPanel implements ActionListener{
-	
+
 	/**
 	 * 
 	 */
@@ -30,17 +32,17 @@ public class ChatPanel extends JPanel implements ActionListener{
 	private JTextField txtNewMessage;
 	private JButton btnSend;
 	private String userName, opponentName;
-	
+
 	public ChatPanel(Viewer viewer, String userName, String opponentName) {
 		this.viewer = viewer;
 		this.userName = userName;
 		this.opponentName = opponentName;
-		
+
 		setLayout(new BorderLayout());
 		setOpaque(false);
 		setPreferredSize(new Dimension(200,600));
 		setBorder(new MatteBorder(5,5,5,5, new Color(177, 160, 119)));
-		
+
 		txtMessages = new JTextArea();
 		txtMessages.setEditable(false);
 		txtMessages.setBackground(new Color(211, 191, 143));
@@ -55,47 +57,58 @@ public class ChatPanel extends JPanel implements ActionListener{
 		txtNewMessage.addActionListener(this);
 		txtNewMessage.setBorder(new CompoundBorder(
 				new MatteBorder(5,0,0,0, new Color(177, 160, 119)), 
-			    new EmptyBorder(5,5,5,5)));
+				new EmptyBorder(5,5,5,5)));
 		txtNewMessage.setPreferredSize(new Dimension(200,50));
 		add(txtNewMessage, BorderLayout.CENTER);
 		btnSend = Common.newButton("Send", this);
 		add(btnSend, BorderLayout.SOUTH);
-	}	
-	
-	/**
-	 * Appends a new message to the chat list.
-	 * @param opponentName
-	 * @param message
-	 */
-	public void addOpponentMessage(String message) {
-		txtMessages.append(opponentName + ": " + message + System.lineSeparator() + System.lineSeparator());
-	}
-	
-	/**
-	 * Appends a new info message to the chat list. 
-	 * @param message The message
-	 * @author André Hansson
-	 */
-	public void addInfoMessage(String message) {
-		txtMessages.append(message + System.lineSeparator() + System.lineSeparator());
-	}
-	
-	/**
-	 * Clears the chat list
-	 */
-	public void clear() {
-		txtMessages.setText("");
+		txtNewMessage.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				txtNewMessage.setText("");  
+			}
+			public void focusLost(FocusEvent e) {
+				txtNewMessage.setText(""); 
+			}
+
+		});  
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnSend || e.getSource()==txtNewMessage) {	// added enter as send message Lukas
-			String message = txtNewMessage.getText();
-			if(!message.equals("") && message != null) {
-				txtMessages.append(userName + ": " + message + System.lineSeparator() + System.lineSeparator());
-				viewer.sendObject("MESSAGE,"+message);
-				txtNewMessage.setText("");									//added reset of txtNewMessage field after sending 
-			}
+
+
+/**
+ * Appends a new message to the chat list.
+ * @param opponentName
+ * @param message
+ */
+public void addOpponentMessage(String message) {
+	txtMessages.append(opponentName + ": " + message + System.lineSeparator() + System.lineSeparator());
+}
+
+/**
+ * Appends a new info message to the chat list. 
+ * @param message The message
+ * @author André Hansson
+ */
+public void addInfoMessage(String message) {
+	txtMessages.append(message + System.lineSeparator() + System.lineSeparator());
+}
+
+/**
+ * Clears the chat list
+ */
+public void clear() {
+	txtMessages.setText("");
+}
+
+public void actionPerformed(ActionEvent e) {
+	if(e.getSource() == btnSend || e.getSource()==txtNewMessage) {	// added enter as send message Lukas
+		String message = txtNewMessage.getText();
+		if(!message.equals("") && message != null) {
+			txtMessages.append(userName + ": " + message + System.lineSeparator() + System.lineSeparator());
+			viewer.sendObject("MESSAGE,"+message);
+			txtNewMessage.setText("");									//added reset of txtNewMessage field after sending 
 		}
 	}
+}
 
 }
