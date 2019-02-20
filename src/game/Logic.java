@@ -147,10 +147,12 @@ public abstract class Logic {
 	public void winner(Player winner) {
 		if(winner == null) {
 			setState(State.DRAW);
-		} else if(winner.getColor() == Color.BLUE) {
+
+	} else if(winner.getColor() == Color.BLUE) {
 			setState(State.WINNER_BLUE);
 		} else {
 			setState(State.WINNER_RED);
+
 		}
 		showPawns(Color.BLUE);
 		showPawns(Color.RED);

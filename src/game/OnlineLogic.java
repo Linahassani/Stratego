@@ -1,6 +1,9 @@
 package game;
 
 import java.util.Random;
+
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import game.Game.State;
 import pawns.*;
@@ -124,13 +127,14 @@ public class OnlineLogic extends Logic {
 			controller.sendObject("WIN");
 			controller.showEndAnimation("WINNER");
 			SoundPlayer.getInstance().playWinnerMusic();
+
 		} else if(winner == opponent) {
 			SoundPlayer.getInstance().playLoserMusic();
 			controller.showEndAnimation("LOOSER");
 		}
 		super.winner(winner);
 	}
-	
+
 	/**
 	 * Receives forfeit from opponent. The local player wins. 
 	 * @see Logic#winner(Player)
@@ -146,7 +150,7 @@ public class OnlineLogic extends Logic {
 		// Check if selected pawn belongs to the player
 		if (local.getColor() == Color.BLUE && game.getCurrentState() == State.BLUE && pawn.getColor() == Color.BLUE
 				|| local.getColor() == Color.RED && game.getCurrentState() == State.RED
-						&& pawn.getColor() == Color.RED) {
+				&& pawn.getColor() == Color.RED) {
 			value = new SelectValue(true);
 		} else {
 			value = new SelectValue(false);
