@@ -34,7 +34,7 @@ import pawns.Pawn;
  * Shows a Matrix build of a double Pawn array. Used to signal for placement,
  * removal and movement of pawns.
  * 
- * @author Lukas Kuras & Henrik Sandström
+ * @author Lukas Kuras & Henrik Sandstrï¿½m
  *
  */
 public class Matrix extends JPanel implements MouseListener, ComponentListener {
@@ -148,9 +148,11 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 		for (int row = 0; row < boardGrid.length; row++) {
 			for (int col = 0; col < boardGrid[row].length; col++) {
 				Pawn pawn = (Pawn) boardGrid[row][col];
+				
 				if (pawn instanceof Empty && viewer.isInPlayerArea(new Position(row, col))) {
 					if (row >= BLUE_ROW_START) {
 						pawn.add(new JLabel(imgAddPawnBlue));
+						
 					} else {
 						pawn.add(new JLabel(imgAddPawnRed));
 					}
@@ -254,7 +256,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 					steps++;
 				}
 			}
-		}, 0, 5);
+		}, 0, 1); //Time for it to move changed to 1 from 5
 	}
 
 	/**
@@ -404,7 +406,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 			int timer = 0;
 
 			public void run() {
-				while (timer <= 4) {
+				while (timer <= 2) { // Timer changed to 2 from 4
 					Graphics animationPanelGraphics = Matrix.this.getGraphics();
 					try {
 						animationPanelGraphics.setXORMode(Color.BLACK);
