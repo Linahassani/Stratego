@@ -1050,3 +1050,39 @@
 
 2019:02:20:10:48:45 ClientHandler : run java.net.SocketException: socket closed-2
 
+2019:02:20:11:50:17  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:20:11:50:31  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:20:11:50:10 New user : Angie connected with ip : /127.0.0.1
+
+2019:02:20:11:50:10 New user : whaaaaa connected with ip : /127.0.0.1
+
+2019:02:20:11:50:10 New game between : Angie and whaaaaa from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:20:11:50:10 ClientHandler : send Angie with ip :/127.0.0.1has disconnectedjava.net.SocketException: Connection reset by peer: socket write error-2
+
+2019:02:20:11:50:10 ClientHandler : disconnected Angie with ip :/127.0.0.1has disconnectedjava.net.SocketException: Socket closed-1
+
+2019:02:20:11:50:10 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:20:11:52:38  ServerStart : constructor: java.net.BindException: Address already in use: JVM_Bind
+
+2019:02:20:11:52:30 New user : angie connected with ip : /127.0.0.1
+
+2019:02:20:11:52:30 New user : leonard connected with ip : /127.0.0.1
+
+2019:02:20:11:52:30 New game between : angie and leonard from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:20:11:52:30 Username : leonard has WON the game/127.0.0.1
+
+2019:02:20:11:52:30 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:20:11:52:30 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:20:13:00:55 New user : angie connected with ip : /127.0.0.1
+
+2019:02:20:13:00:55 ClientHandler : run java.net.SocketException: socket closed-2
+
+2019:02:20:13:00:55 New user : angie connected with ip : /127.0.0.1
+

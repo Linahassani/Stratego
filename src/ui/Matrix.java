@@ -410,7 +410,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 					try {
 						animationPanelGraphics.setXORMode(Color.BLACK);
 						
-						if (s.equals("LOOSER")) {
+						if (s.equals("LOSER")) {
 							animationPanelGraphics.drawImage(ImageIO.read(new File("files/images/skull.gif")), 0, 0,
 									getWidth(), getHeight(), Matrix.this);
 						} else if (s.equals("WINNER")) {
@@ -425,7 +425,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 						e.printStackTrace();
 					}
 				}
-				if (s.equals("LOOSER")) {
+				if (s.equals("LOSER")) {
 					JOptionPane.showMessageDialog(null, "You lost!");
 				} else if (s.equals("WINNER")) {
 					JOptionPane.showMessageDialog(null, "You won!!");
