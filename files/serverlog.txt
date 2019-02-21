@@ -1020,3 +1020,17 @@
 
 2019:02:19:12:31:06 ClientHandler : run java.net.SocketException: Socket closed-2
 
+2019:02:21:22:36:15 New user : Database_Test connected with ip : /127.0.0.1
+
+2019:02:21:22:36:15 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:21:22:39:43 New user : Database_Test connected with ip : /127.0.0.1
+
+2019:02:21:22:39:43 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:21:22:51:54 New user : TestDatabase connected with ip : /127.0.0.1
+
+2019:02:21:22:51:54 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:21:22:55:02 New user : TestDatabas connected with ip : /127.0.0.1
+

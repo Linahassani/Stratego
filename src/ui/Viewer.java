@@ -175,7 +175,7 @@ public class Viewer extends JFrame{
 	 * @param highScoreList List of players with their high scores
 	 */
 	public void showHighScores(String highScoreList) {
-		highScores.initialize(highScoreList);
+	//	highScores.initialize(highScoreList);
 		showCard("HighScores");
 	}
 	
