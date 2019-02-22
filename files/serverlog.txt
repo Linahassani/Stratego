@@ -1020,3 +1020,15 @@
 
 2019:02:19:12:31:06 ClientHandler : run java.net.SocketException: Socket closed-2
 
+2019:02:21:21:07:22 New user : Jakob connected with ip : /127.0.0.1
+
+2019:02:21:21:07:22 New user : Gurra connected with ip : /127.0.0.1
+
+2019:02:21:21:07:22 New game between : Gurra and Jakob from ip : /127.0.0.1 and ip: /127.0.0.1
+
+2019:02:21:21:07:22 Username : Jakob has FORFEIT the game/127.0.0.1
+
+2019:02:21:21:07:22 ClientHandler : run java.net.SocketException: Socket closed-2
+
+2019:02:21:21:07:22 ClientHandler : run java.net.SocketException: Socket closed-2
+

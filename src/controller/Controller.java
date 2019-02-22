@@ -23,7 +23,7 @@ import user.UserSetups;
 
 /**
  * Main Controller. Starts the application.
- * Is responsible for distribution of information among other classes
+ * Is responsible for distribution of information among other classes ((test))
  * 
  * @author André Hansson
  */
