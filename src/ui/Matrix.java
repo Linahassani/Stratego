@@ -35,7 +35,7 @@ import pawns.Pawn;
  * Shows a Matrix build of a double Pawn array. Used to signal for placement,
  * removal and movement of pawns.
  * 
- * @author Lukas Kuras & Henrik Sandstr�m
+ * @author Lukas Kuras & Henrik Sandström
  *
  */
 public class Matrix extends JPanel implements MouseListener, ComponentListener {
@@ -149,15 +149,13 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 		for (int row = 0; row < boardGrid.length; row++) {
 			for (int col = 0; col < boardGrid[row].length; col++) {
 				Pawn pawn = (Pawn) boardGrid[row][col];
-				
 				if (pawn instanceof Empty && viewer.isInPlayerArea(new Position(row, col))) {
 					if (row >= BLUE_ROW_START) {
 						pawn.add(new JLabel(imgAddPawnBlue));
-						
-					} else {
 						pawn.add(new JLabel(imgAddPawnRed));
-					}
 
+//					} else {
+					}
 				}
 			}
 		}
@@ -257,7 +255,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 					steps++;
 				}
 			}
-		}, 0, 1); //Time for it to move changed to 1 from 5
+		}, 0, 5);
 	}
 
 	/**
@@ -407,12 +405,12 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 			int timer = 0;
 
 			public void run() {
-				while (timer <= 2) { // Timer changed to 2 from 4
+				while (timer <= 4) {
 					Graphics animationPanelGraphics = Matrix.this.getGraphics();
 					try {
 						animationPanelGraphics.setXORMode(Color.BLACK);
 						
-						if (s.equals("LOOSER")) {
+						if (s.equals("LOSER")) {
 							animationPanelGraphics.drawImage(ImageIO.read(new File("files/images/skull.gif")), 0, 0,
 									getWidth(), getHeight(), Matrix.this);
 						} else if (s.equals("WINNER")) {
@@ -427,7 +425,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 						e.printStackTrace();
 					}
 				}
-				if (s.equals("LOOSER")) {
+				if (s.equals("LOSER")) {
 					JOptionPane.showMessageDialog(null, "You lost!");
 				} else if (s.equals("WINNER")) {
 					JOptionPane.showMessageDialog(null, "You won!!");
