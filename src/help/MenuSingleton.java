@@ -42,7 +42,7 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		PLACE, MOVE, ATTACK, ONLINE
 	};
 
-	private String[] listItems = { "Objectives", "Place", "Remove", "Move", "Attack", "Online", "Pawns" };
+	private String[] listItems = { "Goals", "Place", "Remove", "Move", "Attack", "Online", "Piece" };
 	private JList<String> list = new JList<String>(listItems);
 	private JScrollPane scrollList = new JScrollPane(list);
 	private JLabel listLabel = new JLabel("Choose a help topic");
@@ -53,7 +53,7 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 
 	private MenuSingleton() {
 		System.out.println("MenuSingleton - init");
-		this.setPreferredSize(new Dimension(500, 300));
+		this.setPreferredSize(new Dimension(500, 500));
 		this.setLayout(new FlowLayout());
 		this.setOpaque(true);
 		// scrollList.setPreferredSize(new Dimension(80, 200));
@@ -61,7 +61,7 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		scrollList.setOpaque(true);
 		list.addListSelectionListener(this);
 		list.setOpaque(false);
-		textArea.setPreferredSize(new Dimension(400, 250));
+		textArea.setPreferredSize(new Dimension(400, 450));
 		textArea.setAlignmentY(CENTER_ALIGNMENT);
 		textArea.setAlignmentX(CENTER_ALIGNMENT);
 		textArea.setOpaque(false);
