@@ -1,0 +1,4 @@
+2019:02:22:12:41:23 New user : testar connected with ip : /127.0.0.1
+
+2019:02:22:12:41:23 ClientHandler : run java.net.SocketException: Socket closed-2
+
