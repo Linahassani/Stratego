@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Database connection class that will and should contain all the connections to the database.
  * Not finished yet, missing a few quaries. Look at the notes from prevrious developer Yun.
- * @author yun
+ * @author yun test test
  *
  */
 public class HSDatabase {
