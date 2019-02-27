@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -19,7 +21,7 @@ import javax.swing.border.MatteBorder;
  * Chat window for multiplayer games.
  * @author Henrik Sandström
  */
-public class ChatPanel extends JPanel implements ActionListener{
+public class ChatPanel extends JPanel implements ActionListener, FocusListener {
 	
 	/**
 	 * 
@@ -30,6 +32,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 	private JTextField txtNewMessage;
 	private JButton btnSend;
 	private String userName, opponentName;
+	private boolean chatInitiated;
 	
 	public ChatPanel(Viewer viewer, String userName, String opponentName) {
 		this.viewer = viewer;
@@ -51,8 +54,9 @@ public class ChatPanel extends JPanel implements ActionListener{
 		pane.setPreferredSize(new Dimension(200,500));
 		pane.setBorder(null);
 		add(pane, BorderLayout.NORTH);
+		chatInitiated = false;
 		txtNewMessage = new JTextField("Enter message");
-		txtNewMessage.addActionListener(this);
+		txtNewMessage.addFocusListener(this);
 		txtNewMessage.setBorder(new CompoundBorder(
 				new MatteBorder(5,0,0,0, new Color(177, 160, 119)), 
 			    new EmptyBorder(5,5,5,5)));
@@ -86,16 +90,34 @@ public class ChatPanel extends JPanel implements ActionListener{
 	public void clear() {
 		txtMessages.setText("");
 	}
-
+	
+	/**
+	 * Now only listens to the Send button, sends the user's message
+	 * to viewer if it contain any characters
+	 * @author Jakob
+	 */
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnSend || e.getSource()==txtNewMessage) {	// added enter as send message Lukas
+		if(e.getSource() == btnSend) {
 			String message = txtNewMessage.getText();
 			if(!message.equals("") && message != null) {
 				txtMessages.append(userName + ": " + message + System.lineSeparator() + System.lineSeparator());
 				viewer.sendObject("MESSAGE,"+message);
-				txtNewMessage.setText("");									//added reset of txtNewMessage field after sending 
+				txtNewMessage.setText("");	
 			}
 		}
 	}
+
+	/**
+	 * Removes the "Enter message" when textarea is clicked on for the first time
+	 * @author Jakob
+	 */
+	public void focusGained(FocusEvent e) {
+		if(!chatInitiated) {
+			txtNewMessage.setText("");
+			chatInitiated = true;
+		}
+	}
+
+	public void focusLost(FocusEvent e) {}
 
 }
