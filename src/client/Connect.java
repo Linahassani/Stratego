@@ -155,7 +155,7 @@ public class Connect implements SendMessageCallback {
 						controler.newMessage((String)ois.readObject()); // every new message from server goes to controller 
 					//	inBox.push((String) ois.readObject());
 					} catch (Exception e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						System.out.println("Something went wrong with reading stream CLOSING connection try reconnect");
 						stopConnection();// stops this client
 						isRunning=false;
