@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -16,11 +17,12 @@ import javax.swing.border.EmptyBorder;
 
 import highscore.HSDatabase;
 import highscore.HighScoreList;
+import highscore.Score;
 
 /**
  * JPanel window/card for showing the server high scores.
  * Added a new things. Look at the notes from developer Yun.
- * @author Henrik Sandstr�m
+ * @author Henrik Sandström
  */
 public class HighScoresUI extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 9152300781099331929L;
@@ -28,10 +30,10 @@ public class HighScoresUI extends JPanel implements ActionListener{
 	private JLabel[] lblScore;
 	private JButton btnBack;
 	private ScoreList highScoreList;
-	private HSDatabase database = new HSDatabase();
-	private ArrayList<String> workers;
+	private ArrayList<Score> scoreList;
 	private String workersInString;
 	private JTextArea txt = new JTextArea();
+	private HSDatabase database;
 
 	/**
 	 * Constructs the window & initializes variables.
@@ -39,7 +41,7 @@ public class HighScoresUI extends JPanel implements ActionListener{
 	 */
 	public HighScoresUI(Viewer viewer) {
 		this.viewer = viewer;
-		
+		this.database = viewer.getDatabase();
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(0,0,40,0));
 		
@@ -74,10 +76,14 @@ public class HighScoresUI extends JPanel implements ActionListener{
 		}
 		
 		public void initialize() {
-			workers = database.getUsers();
+			try {
+				scoreList = database.getHighScore();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
-			for (String work : workers ) {
-				workersInString += work + " \n";
+			for (Score sc : scoreList ) {
+				workersInString += sc.getUserName() + "	 " + sc.getScore() + "\n";
 			}
 			txt.setText(workersInString);
 			txt.setAlignmentX(SwingConstants.CENTER);

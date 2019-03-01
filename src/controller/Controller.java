@@ -14,6 +14,7 @@ import game.OnlineLogic;
 import game.Position;
 import game.SelectValue;
 import game.SoundPlayer;
+import highscore.HSDatabase;
 import pawns.Pawn;
 import pawns.Pawn.Color;
 import ui.Viewer;
@@ -36,6 +37,7 @@ public class Controller {
 	private UserSetups userSetups;
 	private Connect connect;
 	private ExecutorService executor;
+	private HSDatabase db;
 
 	private static final String IP = "localhost";
 
@@ -49,6 +51,7 @@ public class Controller {
 		userSettings = UserSettings.getInstance();
 		userGames = UserGames.getInstance();
 		userSetups = UserSetups.getInstance();
+		db = new HSDatabase();
 
 		SwingUtilities.invokeLater(() -> {
 			viewer = new Viewer(Controller.this);
@@ -563,6 +566,14 @@ public class Controller {
 	 */
 	public void showEndAnimation(String string) {
 		viewer.showEndAnimation(string);
+	}
+	
+	/**
+	 * Returns the instance of the database communication object
+	 * @return
+	 */
+	public HSDatabase getDatabase() {
+		return this.db;
 	}
 	
 	/**

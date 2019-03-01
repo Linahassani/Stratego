@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import help.HelpButtonSingleton;
+import highscore.HSDatabase;
 
 /**
  * Multiplayer lobby UI. Holds information and statistics for the current user and show a list off available players.
@@ -42,6 +44,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	private boolean entered;
 	private LobbyHeader header;
 	private boolean headerInit = false;
+	private HSDatabase database;
 		
 	public LobbyUI(Viewer viewer) {		
 		this.viewer = viewer;
@@ -50,6 +53,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(50,0,0,0));
 		setPreferredSize(new Dimension(600,600));
+		database = viewer.getDatabase();
 		
 		lblConnect = new JLabel("Connecting to server..");
 		lblConnect.setFont(lblConnect.getFont().deriveFont(30f));
@@ -162,10 +166,17 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 */
 	public void updateUserInfo() {
 		lblUserName.setText(userName);
-		//int gamesPlayed = db.getPLayed(userName)
-		//int gamesWon = db.getWon(userName)
-		//lblGamesPlayed.setText("Games played: " +  gamesPlayed);
-		//lblGamesWon.setText("Games won: " + gamesWon + " (" + (gamesWon/gamesPlayed * 100) + ")");
+		int gamesPlayed = 0;
+		int gamesWon = 0;
+		try {
+			gamesPlayed = database.getGamesPlayed(userName);
+			gamesWon = database.getGamesWon(userName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		lblGamesPlayed.setText("Games played: " +  gamesPlayed);
+		lblGamesWon.setText("Games won: " + gamesWon + " (" + (gamesWon/gamesPlayed * 100) + "%)");
 	}
 	
 	/**

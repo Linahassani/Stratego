@@ -15,6 +15,7 @@ import game.Game;
 import game.Position;
 import game.SelectValue;
 import game.SoundPlayer;
+import highscore.HSDatabase;
 import pawns.Pawn;
 
 /**
@@ -136,6 +137,14 @@ public class Viewer extends JFrame{
 		}
 		setVisible(true);
 		setPreferredSize(null);
+	}
+	
+	/**
+	 * Returns the database object from controller
+	 * @return
+	 */
+	public HSDatabase getDatabase() {
+		return controller.getDatabase();
 	}
 	
 	/**
