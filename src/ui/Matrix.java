@@ -53,6 +53,7 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 	private final static ImageIcon ADD_PAWN_RED = new ImageIcon("files/images/addPawnRed.png");
 	private final static int DIRECTION_UP = 0, DIRECTION_DOWN = 1, DIRECTION_LEFT = 2, DIRECTION_RIGHT = 3;
 	private final static int BLUE_ROW_START = 6;
+	private final static int RED_ROW_END = 3;
 	private int cellWidth;
 	private SidePanel sidePanel;
 
@@ -152,10 +153,9 @@ public class Matrix extends JPanel implements MouseListener, ComponentListener {
 				if (pawn instanceof Empty && viewer.isInPlayerArea(new Position(row, col))) {
 					if (row >= BLUE_ROW_START) {
 						pawn.add(new JLabel(imgAddPawnBlue));
+					} else if(row <= RED_ROW_END) {
 						pawn.add(new JLabel(imgAddPawnRed));
-
-//					} else {
-					}
+					} 
 				}
 			}
 		}
