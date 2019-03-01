@@ -25,7 +25,7 @@ import pawns.Pawn;
  * The game window. Holds the matrix and actively shows information about the
  * current game.
  * 
- * @author Henrik Sandstr�m
+ * @author Henrik Sandström
  *
  */
 public class BoardUI extends JPanel implements ActionListener, ComponentListener {
@@ -211,9 +211,12 @@ public class BoardUI extends JPanel implements ActionListener, ComponentListener
 		}
 	}
 	
-	private void close() {
+	public void close() { //Gjorde public, om allt fuckas byta till private igen
+		viewer.updateLobbyHeader();
 		viewer.showCard("Lobby");
-		chatPanel.clear();
+		if(chatPanel != null) {
+			chatPanel.clear();
+		}
 		endGame();
 		
 		lblPlayers.setText("");

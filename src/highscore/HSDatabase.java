@@ -11,19 +11,32 @@ import java.util.ArrayList;
 /**
  * Database connection class that will and should contain all the connections to the database.
  * Not finished yet, missing a few quaries. Look at the notes from prevrious developer Yun.
- * @author yun 
+ * @author yun & Jakob
  *
  */
 public class HSDatabase {
 	private final String url = "jdbc:postgresql://pgserver.mah.se/stratego";
 	private final String userID = "ah8378";
 	private final String password = "2o0hd5wd";
+	private int idNumber = 0;
 	private Connection conn;
 	
+	/**
+	 * Constructor
+	 */
 	public HSDatabase() {
 		conn = connect();
+		try {
+			initUserID();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
+	/**
+	 * Method which connects to the database
+	 * @return the connection object
+	 */
 	public Connection connect() {
 		Connection conn = null;
 		try {
@@ -36,6 +49,29 @@ public class HSDatabase {
  		return conn;
 	}
 	
+	/**
+	 * Method which fetches the highest userID in the database and increments it by 1
+	 * @throws SQLException
+	 */
+	public void initUserID() throws SQLException {
+		String userIDQuery = "Select max(userid) from users";
+		
+		PreparedStatement pst = conn.prepareStatement(userIDQuery);
+		ResultSet rs = pst.executeQuery();
+		
+		while(rs.next()) {
+			idNumber = rs.getInt(1);
+			idNumber++;
+		}
+		
+	}
+	
+	/**
+	 * Method which fetches number of games played by a user
+	 * @param userName
+	 * @return
+	 * @throws SQLException
+	 */
 	public int getGamesPlayed(String userName) throws SQLException {
 		int nrofgames = 0;
 		String query = "Select nrofgames from users where username = '" + userName +"'";
@@ -49,6 +85,12 @@ public class HSDatabase {
 		return nrofgames;
 	}
 	
+	/**
+	 * Method which fetches number of games won by a user
+	 * @param userName
+	 * @return
+	 * @throws SQLException
+	 */
 	public int getGamesWon(String userName) throws SQLException {
 		int wins = 0;
 		String query = "Select victories from users where username = '" + userName + "'";
@@ -61,31 +103,43 @@ public class HSDatabase {
 		return wins;
 	}
 	
+	/**
+	 * Method which increments a user's amount of games won
+	 * @param userName
+	 * @throws SQLException
+	 */
 	public void gameWon(String userName) throws SQLException  {
 		int wins = getGamesWon(userName);
 		wins++;
-		String query = "Insert into user(victories) values ('" + wins + "') where username = '" + userName + "'";
+		String query = "update users set victories = "+ wins +" where username = '" + userName + "'";
 		PreparedStatement pst = conn.prepareStatement(query);
 		pst.executeUpdate();
 	}
 	
-	public void gamePlayed(String user1, String user2) throws SQLException {
-		int games1 = getGamesPlayed(user1);
-		int games2 = getGamesPlayed(user2);
-		games1++;
-		games2++;
-		String queryPlayer1 = "Select victories from users where username = '" + user1 + "'";
-		String queryPlayer2 = "Select victories from users where username = '" + user2 + "'";
+	/**
+	 * Method which increments a user's amount of games played
+	 * @param user1
+	 * @param user2
+	 * @throws SQLException
+	 */
+	public void gamePlayed(String user) throws SQLException {
+		int games = getGamesPlayed(user);
+		games++;
+		String updateQuery = "update users set nrofgames = " + games + " where username = '" + user +"'";
 		
-		PreparedStatement pst1 = conn.prepareStatement(queryPlayer1);
+		PreparedStatement pst1 = conn.prepareStatement(updateQuery);
 		pst1.executeUpdate();
 		
-		PreparedStatement pst2 = conn.prepareStatement(queryPlayer2);
-		pst2.executeUpdate();
 		
 	}
 	
+	/**
+	 * Method which fetches the highscore 
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Score> getHighScore() throws SQLException {
+		int count = 0;
 		ArrayList<Score> list = new ArrayList<Score>();
 		String highscoreQuery = "Select username, victories from users order by victories desc";
 		
@@ -96,15 +150,50 @@ public class HSDatabase {
 			 String user = rs.getString("username");
 			 int score = rs.getInt(2);
 			 list.add(new Score(user, score));
+			 count++;
+			 if(count >= 10) {
+				 break;
+			 }
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * Method which adds a username to the database if not already in it
+	 * @param username
+	 * @throws SQLException
+	 */
+	public void addPlayer(String username) throws SQLException {
+		boolean playerexists = false;
+		String checkPlayerQuery = "Select username from users";
+		String addplayerQuery = "insert into users(userid,username, nrofgames, victories) values (" + idNumber + ",'" + username + "',0,0)";
+		
+		PreparedStatement pst = conn.prepareStatement(checkPlayerQuery);
+		ResultSet rs = pst.executeQuery();
+		
+		while(rs.next()) {
+			String user = rs.getString("username");
+			if(user.equals(username)) {
+				playerexists = true;
+				System.out.println(user + " already exists in database");
+				break;
+			}
+		}
+		if(!playerexists) {
+			PreparedStatement psAdd = conn.prepareStatement(addplayerQuery);
+			psAdd.executeUpdate();
+		}
+		
 	}
 	
 	public static void main (String[] args) {
 		HSDatabase comm = new HSDatabase();
 				
 		try {
+			//comm.addPlayer("Jakob");
+			comm.gameWon("Hasse");
+			//comm.gamePlayed("Hasse");
 			ArrayList<Score> list = comm.getHighScore();
 			for(Score sc : list) {
 				System.out.println(sc.getUserName() + " , " + sc.getScore());

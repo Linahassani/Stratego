@@ -115,6 +115,9 @@ public class LobbyUI extends JPanel implements ActionListener {
 				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
 			}	
 			viewer.startClient("USERNAME,"+userName);
+			try {
+				database.addPlayer(userName);
+			}catch(SQLException e) {}
 			viewer.showCard("Lobby");
 		}	
 	}
@@ -166,17 +169,20 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 */
 	public void updateUserInfo() {
 		lblUserName.setText(userName);
-		int gamesPlayed = 0;
-		int gamesWon = 0;
+		double gamesPlayed = 0;
+		double gamesWon = 0;
 		try {
 			gamesPlayed = database.getGamesPlayed(userName);
 			gamesWon = database.getGamesWon(userName);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		lblGamesPlayed.setText("Games played: " +  gamesPlayed);
-		lblGamesWon.setText("Games won: " + gamesWon + " (" + (gamesWon/gamesPlayed * 100) + "%)");
+		double winRatio = gamesWon/gamesPlayed * 100;
+		int winR = (int) winRatio;
+		int played = (int) gamesPlayed;
+		int won = (int) gamesWon;
+		lblGamesPlayed.setText("Games played: " +  played);
+		lblGamesWon.setText("Games won: " + won + " (" + winR + "%)");
 	}
 	
 	/**
@@ -274,8 +280,8 @@ public class LobbyUI extends JPanel implements ActionListener {
 			
 			JPanel userStatistics = new JPanel();
 			userStatistics.setLayout(new GridLayout(0,2));
-			lblGamesPlayed = new JLabel("Games played: 20");
-			lblGamesWon = new JLabel("Games won: 15 (75%)");
+			lblGamesPlayed = new JLabel("Games played: 0");
+			lblGamesWon = new JLabel("Games won: 0 (0%)");
 			userStatistics.setOpaque(false);
 			userStatistics.add(lblGamesPlayed);
 			userStatistics.add(lblGamesWon);			

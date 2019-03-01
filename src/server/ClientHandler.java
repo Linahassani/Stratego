@@ -112,7 +112,7 @@ public class ClientHandler implements Runnable {
 
 					} else if (str.startsWith("FORFEIT")) {
 						highscore.addScore(opponent, 1); // opponent wins
-						sendToOpponent("FORFEIT," + userName);
+						sendToOpponent("FORFEIT," + userName +","+ opponent);
 						log.addToLog("Username : " + userName + " has FORFEIT the game" + socket.getInetAddress()
 								+ System.lineSeparator());
 						available.put(userName, this);

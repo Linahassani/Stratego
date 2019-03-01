@@ -31,7 +31,7 @@ public class HighScoresUI extends JPanel implements ActionListener{
 	private JButton btnBack;
 	private ScoreList highScoreList;
 	private ArrayList<Score> scoreList;
-	private String workersInString;
+	private String highScoreInString = "";
 	private JTextArea txt = new JTextArea();
 	private HSDatabase database;
 
@@ -83,9 +83,9 @@ public class HighScoresUI extends JPanel implements ActionListener{
 			}
 			
 			for (Score sc : scoreList ) {
-				workersInString += sc.getUserName() + "	 " + sc.getScore() + "\n";
+				highScoreInString += sc.getUserName() + "	 " + sc.getScore() + "\n \n";
 			}
-			txt.setText(workersInString);
+			txt.setText(highScoreInString);
 			txt.setAlignmentX(SwingConstants.CENTER);
 			txt.setEditable(false);
 			txt.setOpaque(false);

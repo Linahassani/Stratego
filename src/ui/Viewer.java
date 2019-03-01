@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -166,6 +167,12 @@ public class Viewer extends JFrame{
 		board.startMultiplayerGame(userName, opponentName);
 		showCard("Board");
 		SoundPlayer.getInstance().playGameMusic();
+		HSDatabase db = getDatabase();
+		try {
+			db.gamePlayed(userName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -460,5 +467,20 @@ public class Viewer extends JFrame{
 	 */
 	public void showEndAnimation(String string) {
 		matrix.showEndAnimation(string);
+	}
+	
+	/**
+	 * Method used to bring user's to lobby from onlinegame
+	 */
+	public void updatetoLobby() {
+		board.close();
+		updateLobbyHeader();
+	}
+	
+	/**
+	 * Method updating the user information in LobbyUI
+	 */
+	public void updateLobbyHeader() {
+		lobby.updateUserInfo();
 	}
 }

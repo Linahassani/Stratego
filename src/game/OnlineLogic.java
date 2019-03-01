@@ -140,8 +140,9 @@ public class OnlineLogic extends Logic {
 	 * Receives forfeit from opponent. The local player wins. 
 	 * @see Logic#winner(Player)
 	 */
-	public void opponentForfeit() {
+	public void opponentForfeit(String opponent, String user) {
 		super.winner(local);
+		controller.opponentForfeit(opponent, user);
 	}
 
 	@Override
