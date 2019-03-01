@@ -82,9 +82,9 @@ public class UIConnected extends JFrame implements ActionListener {
 			clientPnl.add(clientBtn);
 			panel.add(clientPnl);
 		}
-			panel.revalidate();
-			panel.repaint();
-		}
+		panel.revalidate();
+		panel.repaint();
+	}
 	
 	/**
 	 * method that determine which button was clicked and tells controller to disconnect the user

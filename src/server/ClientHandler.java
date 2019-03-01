@@ -237,7 +237,9 @@ public class ClientHandler implements Runnable {
 					+ "has disconnected" + e.toString() + e.getStackTrace()[0].getLineNumber()
 					+ System.lineSeparator());
 		}
+		System.out.println(userName + " DISCONNECTED");
 		listener.updateUI();
+		
 	}
 	
 	/**
