@@ -33,10 +33,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	private JPanel rightCounterPanel = new JPanel();
 	private GridLayout gridBordLayout = new GridLayout(boardGrid.length, boardGrid[0].length); // grid size = array size
 	private GridLayout gridBordCounterLayout = new GridLayout(boardGridCounter.length, boardGridCounter[0].length); // grid size
-	private JButton readyBtn, saveBtn, loadBtn, tempSelected;
+	private JButton readyBtn, saveBtn, loadBtn;
 	private JPanel buttonsPanel = new JPanel();
 	private JPanel buttonsContainer = new JPanel();
 	private BoardUI boardUI;
+	private int boardYSelected = -1;
+	private int boardXSelected = -1;
 	private String[] userSetupsNames;
 	private UserSetups userSetups;
 	private String loadedSetupName;
@@ -100,7 +102,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void updateBoard(JButton[][] board, int[][] counter) {
 		this.boardGrid = board;
 		this.boardGridCounter = counter;
-		this.redoBoard(board);// after array update sets up the panel again
+		this.redoBoard();// after array update sets up the panel again
 		this.redoCounters();// after counters update sets them up
 	}
 
@@ -108,13 +110,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	/**
 	 * Re-adds the setup pawns. 
 	 */
-	private void redoBoard(JButton[][] board) {
-
+	private void redoBoard() {
 		buttonsContainer.removeAll();
 		for (int i = 0; i < boardGrid.length; i++) {
 			for (int k = 0; k < boardGrid[i].length; k++) {
 				JButton tempBtn = boardGrid[i][k];
-				if(tempBtn.equals(tempSelected)) {
+				if(i == boardYSelected && k == boardXSelected) {
 					System.out.println("Hejhej");
 					tempBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
 					tempBtn.setSelected(true);
@@ -211,13 +212,31 @@ public class SidePanel extends JPanel implements ActionListener {
 			setupPawnBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));				
 		}else{
 			System.out.println("Not selected");
-			resetSelectedPawn(getSelectedPawn());	
+			resetSelectedPawn(getSelectedPawn());
+			getButtonCoordinates(setupPawnBtn);
 			setupPawnBtn.setSelected(true);
-			tempSelected = setupPawnBtn;
-			System.out.println(tempSelected.isSelected());
 			setupPawnBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
+			
 		}
 	}
+	
+	/**
+	 * Method to retrieve the "coordinates" of the button in the boardGrid 
+	 * @param btn
+	 * @return
+	 */
+	private void getButtonCoordinates(JButton btn) {
+		for (int i = 0; i < boardGrid.length; i++) {
+			for (int k = 0; k < boardGrid[0].length; k++) {
+				JButton tempBtn = (JButton) boardGrid[i][k];
+				if(tempBtn.equals(btn)) {
+					boardYSelected = i;
+					boardXSelected = k;
+				}	
+			}
+		}
+	}
+	
 
 	/**
 	 * Sends a request to save the user setup with the given name.
