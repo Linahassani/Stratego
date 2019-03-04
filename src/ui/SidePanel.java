@@ -116,7 +116,6 @@ public class SidePanel extends JPanel implements ActionListener {
 			for (int k = 0; k < boardGrid[i].length; k++) {
 				JButton tempBtn = boardGrid[i][k];
 				if(i == boardYSelected && k == boardXSelected) {
-					System.out.println("Hejhej");
 					tempBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
 					tempBtn.setSelected(true);
 				} else {
@@ -207,11 +206,9 @@ public class SidePanel extends JPanel implements ActionListener {
 	 */
 	private void selectSetupPawn(JButton setupPawnBtn) {
 		if(setupPawnBtn.isSelected()) {
-			System.out.println("Selected");
 			setupPawnBtn.setSelected(false);
 			setupPawnBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));				
 		}else{
-			System.out.println("Not selected");
 			resetSelectedPawn(getSelectedPawn());
 			getButtonCoordinates(setupPawnBtn);
 			setupPawnBtn.setSelected(true);

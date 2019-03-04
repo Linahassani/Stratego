@@ -481,6 +481,7 @@ public class Viewer extends JFrame{
 	 * Method updating the user information in LobbyUI
 	 */
 	public void updateLobbyHeader() {
+		controller.sendObject("UPDATE_REQUEST");
 		lobby.updateUserInfo();
 	}
 }

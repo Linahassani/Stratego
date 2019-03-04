@@ -586,6 +586,7 @@ public class Controller {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		sendObject("OPPONENT_FORFEITED");
 		viewer.updatetoLobby();
 	}
 	

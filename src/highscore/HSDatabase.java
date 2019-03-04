@@ -151,7 +151,7 @@ public class HSDatabase {
 			 int score = rs.getInt(2);
 			 list.add(new Score(user, score));
 			 count++;
-			 if(count >= 10) {
+			 if(count >= 15) {
 				 break;
 			 }
 		}

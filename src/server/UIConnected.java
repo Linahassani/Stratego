@@ -55,7 +55,7 @@ public class UIConnected extends JFrame implements ActionListener {
 	public void updateList() {
 		ArrayList<String> tempusers = allconnected.getArray();
 		
-		System.out.println("UI"+tempusers);
+		//System.out.println("UI"+tempusers);
 		getContentPane().removeAll();
 		setMinimumSize(new Dimension(250, 400));
 		setPreferredSize(new Dimension(250, 400));

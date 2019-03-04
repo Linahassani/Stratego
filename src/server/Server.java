@@ -54,7 +54,7 @@ public class Server implements Runnable {
 	         while(! isStopped()){
 	            Socket socket = null;
 	            
-	            System.out.println("Server listening for incomming clients");
+	            System.out.println("Server listening for incoming clients");
 	            try {
 	            	socket = this.serverSocket.accept();
 	            } catch (IOException e) {

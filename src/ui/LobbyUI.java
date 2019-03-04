@@ -44,6 +44,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	private boolean entered;
 	private LobbyHeader header;
 	private boolean headerInit = false;
+	private boolean listInit = false;
 	private HSDatabase database;
 		
 	public LobbyUI(Viewer viewer) {		
@@ -96,6 +97,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param list List of available players.
 	 */
 	public void userList(String list) {
+		System.out.println(userName + " updates Userlist: " + list);
 		if(entered) {
 			updateAvailablePlayers(list);
 		} else {
@@ -129,6 +131,9 @@ public class LobbyUI extends JPanel implements ActionListener {
 				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
 			}	
 			viewer.sendObject(("USERNAME,"+userName));
+			try {
+				database.addPlayer(userName);
+			}catch(SQLException e) {}
 		}
 	}
 	
@@ -137,7 +142,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param players
 	 */
 	public void enterLobby(String players) {
-		System.out.println("enterLobby - players: " + players);
+		//System.out.println("enterLobby - players: " + players);
 		btnHighScores.setVisible(true);
 		entered = true;
 		remove(lblConnect);
@@ -147,7 +152,10 @@ public class LobbyUI extends JPanel implements ActionListener {
 			headerInit = true;
 		}
 		add(header,BorderLayout.NORTH);
-		playerList = new PlayerList(this);
+		if(!listInit) {
+			playerList = new PlayerList(this);
+			listInit = true;
+		}
 		add(playerList,BorderLayout.CENTER);
 		playerList.initialize(players);
 		updateUserInfo();
@@ -159,7 +167,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param players
 	 */
 	public void updateAvailablePlayers(String players) {
-		System.out.println("Availible Players: " + players);
+		//System.out.println("Availible Players: " + players);
 		playerList.initialize(players);
 	}
 	

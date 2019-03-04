@@ -197,6 +197,7 @@ public class BoardUI extends JPanel implements ActionListener, ComponentListener
 					// FORFEIT
 					if (JOptionPane.showConfirmDialog(null, "Are you sure you want to forfeit the game?") == 0) {
 						viewer.sendObject("FORFEIT");
+						endGame();
 						close();
 					}
 				}
@@ -211,7 +212,7 @@ public class BoardUI extends JPanel implements ActionListener, ComponentListener
 		}
 	}
 	
-	public void close() { //Gjorde public, om allt fuckas byta till private igen
+	public void close() { 
 		viewer.updateLobbyHeader();
 		viewer.showCard("Lobby");
 		if(chatPanel != null) {

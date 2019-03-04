@@ -57,17 +57,16 @@ public class ClientHandler implements Runnable {
 				if (obj instanceof String) {
 					String str = (String) obj;
 
-					System.out.println("ClientHandler message received: " + str + " from: "
-							+ ((userName != null) ? userName : "Unknown"));
+//					System.out.println("ClientHandler message received: " + str + " from: " //Visa igen när servern är fixad
+//							+ ((userName != null) ? userName : "Unknown"));
 
 					if (str.startsWith("USERNAME")) {
 						boolean exist = allConnected.nameExist(str.substring(str.indexOf(",") + 1));
 						
 						if (!exist) {
 							userName = str.substring(str.indexOf(",") + 1);
-							System.out.println(userName);
-							log.addToLog("New user : " + userName + " connected with ip : " + socket.getInetAddress()
-									+ System.lineSeparator());
+//							log.addToLog("New user : " + userName + " connected with ip : " + socket.getInetAddress()
+//									+ System.lineSeparator());
 							connected();
 							updateAvailable();
 							opponent = null;
@@ -148,6 +147,13 @@ public class ClientHandler implements Runnable {
 						log.addToLog("The game between " + userName + " and " + opponent + " has resulted in a draw"
 								+ System.lineSeparator());
 
+					} else if(str.startsWith("OPPONENT_FORFEITED")) {
+						System.out.println(userName + " won a forfeited match, now in CH");
+						available.put(userName, this);
+						opponent = null;
+						aGame.remove(userName);
+						updateAvailable();
+						
 					} else {
 						sendToOpponent(str);
 					}
@@ -233,9 +239,10 @@ public class ClientHandler implements Runnable {
 			ois.close();
 			oos.close();
 		} catch (IOException e) {
-			log.addToLog("ClientHandler : disconnected " + userName + " with ip :" + temp.socket.getInetAddress()
-					+ "has disconnected" + e.toString() + e.getStackTrace()[0].getLineNumber()
-					+ System.lineSeparator());
+			System.out.println("Error vid socketclose");
+//			log.addToLog("ClientHandler : disconnected " + userName + " with ip :" + temp.socket.getInetAddress()
+//					+ "has disconnected" + e.toString() + e.getStackTrace()[0].getLineNumber()
+//					+ System.lineSeparator());
 		}
 		System.out.println(userName + " DISCONNECTED");
 		listener.updateUI();
