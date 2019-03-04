@@ -19,7 +19,7 @@ import user.UserSetups;
 
 /**
  * Side panel needed at the beginning of the game for placing the pawns on the Matrix.
- * @author Lukas Kuras & Henrik Sandström
+ * @author Lukas Kuras & Henrik Sandstrï¿½m
  */
 public class SidePanel extends JPanel implements ActionListener {
 
@@ -33,7 +33,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	private JPanel rightCounterPanel = new JPanel();
 	private GridLayout gridBordLayout = new GridLayout(boardGrid.length, boardGrid[0].length); // grid size = array size
 	private GridLayout gridBordCounterLayout = new GridLayout(boardGridCounter.length, boardGridCounter[0].length); // grid size
-	private JButton readyBtn, saveBtn, loadBtn;
+	private JButton readyBtn, saveBtn, loadBtn, tempSelected;
 	private JPanel buttonsPanel = new JPanel();
 	private JPanel buttonsContainer = new JPanel();
 	private BoardUI boardUI;
@@ -100,7 +100,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void updateBoard(JButton[][] board, int[][] counter) {
 		this.boardGrid = board;
 		this.boardGridCounter = counter;
-		this.redoBoard();// after array update sets up the panel again
+		this.redoBoard(board);// after array update sets up the panel again
 		this.redoCounters();// after counters update sets them up
 	}
 
@@ -108,23 +108,29 @@ public class SidePanel extends JPanel implements ActionListener {
 	/**
 	 * Re-adds the setup pawns. 
 	 */
-	private void redoBoard() {
+	private void redoBoard(JButton[][] board) {
 
 		buttonsContainer.removeAll();
 		for (int i = 0; i < boardGrid.length; i++) {
 			for (int k = 0; k < boardGrid[i].length; k++) {
 				JButton tempBtn = boardGrid[i][k];
+				if(tempBtn.equals(tempSelected)) {
+					System.out.println("Hejhej");
+					tempBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
+					tempBtn.setSelected(true);
+				} else {
+					tempBtn.setSelected(false);
+					tempBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));
+				}
+				tempBtn.setContentAreaFilled(false);
 				tempBtn.removeActionListener(this);
 				tempBtn.addActionListener(this);
-				tempBtn.setSelected(false);
-				tempBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));
-				tempBtn.setContentAreaFilled(false);
 				buttonsContainer.add(tempBtn);
 
 			}
 		}
 
-		// buttonsContainer.revalidate();
+		//buttonsContainer.revalidate();
 		this.revalidate();
 		this.repaint();
 	}
@@ -200,11 +206,15 @@ public class SidePanel extends JPanel implements ActionListener {
 	 */
 	private void selectSetupPawn(JButton setupPawnBtn) {
 		if(setupPawnBtn.isSelected()) {
+			System.out.println("Selected");
 			setupPawnBtn.setSelected(false);
 			setupPawnBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));				
 		}else{
-			resetSelectedPawn(getSelectedPawn());					
+			System.out.println("Not selected");
+			resetSelectedPawn(getSelectedPawn());	
 			setupPawnBtn.setSelected(true);
+			tempSelected = setupPawnBtn;
+			System.out.println(tempSelected.isSelected());
 			setupPawnBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
 		}
 	}

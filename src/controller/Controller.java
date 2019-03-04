@@ -52,7 +52,7 @@ public class Controller {
 		userSettings = UserSettings.getInstance();
 		userGames = UserGames.getInstance();
 		userSetups = UserSetups.getInstance();
-		//db = new HSDatabase();
+		db = new HSDatabase();
 
 		SwingUtilities.invokeLater(() -> {
 			viewer = new Viewer(Controller.this);
@@ -581,11 +581,11 @@ public class Controller {
 	
 	public void opponentForfeit(String opponent, String user) {
 		JOptionPane.showMessageDialog(null, "Congratulations, you won! " + opponent + " forfeited the game.");
-//		try {
-//			db.gameWon(user);	
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			db.gameWon(user);	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		viewer.updatetoLobby();
 	}
 	
@@ -594,11 +594,11 @@ public class Controller {
 	 * @param winner
 	 */
 	public void updateWin(String winner) {
-//		try {
-//			db.gameWon(winner);	
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			db.gameWon(winner);	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -100,9 +100,10 @@ public class HotseatLogic extends Logic {
 			setState(State.BLUE);
 		} else if (game.getCurrentState() == State.SETUP_BLUE) {
 			if (pawnList.pawnListSize() == 0) {
+				setState(State.SETUP_RED);
 				pawnList = new PawnList(Pawn.Color.RED);
 				updateSidePanel();
-				setState(State.SETUP_RED);
+				
 			} // else There are more pawns to place
 		} else if (game.getCurrentState() == State.SETUP_RED) {
 			if (pawnList.pawnListSize() == 0) {
