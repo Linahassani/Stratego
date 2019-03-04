@@ -167,12 +167,12 @@ public class Viewer extends JFrame{
 		board.startMultiplayerGame(userName, opponentName);
 		showCard("Board");
 		SoundPlayer.getInstance().playGameMusic();
-		HSDatabase db = getDatabase();
-		try {
-			db.gamePlayed(userName);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		HSDatabase db = getDatabase();
+//		try {
+//			db.gamePlayed(userName);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	/**

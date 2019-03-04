@@ -53,7 +53,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(50,0,0,0));
 		setPreferredSize(new Dimension(600,600));
-		database = viewer.getDatabase();
+		//database = viewer.getDatabase();
 		
 		lblConnect = new JLabel("Connecting to server..");
 		lblConnect.setFont(lblConnect.getFont().deriveFont(30f));
@@ -115,9 +115,9 @@ public class LobbyUI extends JPanel implements ActionListener {
 				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
 			}	
 			viewer.startClient("USERNAME,"+userName);
-			try {
-				database.addPlayer(userName);
-			}catch(SQLException e) {}
+//			try {
+//				database.addPlayer(userName);
+//			}catch(SQLException e) {}
 			viewer.showCard("Lobby");
 		}	
 	}
@@ -169,20 +169,20 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 */
 	public void updateUserInfo() {
 		lblUserName.setText(userName);
-		double gamesPlayed = 0;
-		double gamesWon = 0;
-		try {
-			gamesPlayed = database.getGamesPlayed(userName);
-			gamesWon = database.getGamesWon(userName);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		double winRatio = gamesWon/gamesPlayed * 100;
-		int winR = (int) winRatio;
-		int played = (int) gamesPlayed;
-		int won = (int) gamesWon;
-		lblGamesPlayed.setText("Games played: " +  played);
-		lblGamesWon.setText("Games won: " + won + " (" + winR + "%)");
+//		double gamesPlayed = 0;
+//		double gamesWon = 0;
+//		try {
+//			gamesPlayed = database.getGamesPlayed(userName);
+//			gamesWon = database.getGamesWon(userName);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		double winRatio = gamesWon/gamesPlayed * 100;
+//		int winR = (int) winRatio;
+//		int played = (int) gamesPlayed;
+//		int won = (int) gamesWon;
+//		lblGamesPlayed.setText("Games played: " +  played);
+//		lblGamesWon.setText("Games won: " + won + " (" + winR + "%)");
 	}
 	
 	/**

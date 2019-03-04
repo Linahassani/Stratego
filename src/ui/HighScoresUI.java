@@ -41,9 +41,10 @@ public class HighScoresUI extends JPanel implements ActionListener{
 	 */
 	public HighScoresUI(Viewer viewer) {
 		this.viewer = viewer;
-		this.database = viewer.getDatabase();
+		//this.database = viewer.getDatabase();
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(0,0,40,0));
+		scoreList = new ArrayList<Score>(); //ta bort när db funkar igen
 		
 		add(Common.newTitle("Server highscores"), BorderLayout.NORTH);
 		
@@ -76,11 +77,11 @@ public class HighScoresUI extends JPanel implements ActionListener{
 		}
 		
 		public void initialize() {
-			try {
-				scoreList = database.getHighScore();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				scoreList = database.getHighScore();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
 			
 			for (Score sc : scoreList ) {
 				highScoreInString += sc.getUserName() + "	 " + sc.getScore() + "\n \n";
