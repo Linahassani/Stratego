@@ -174,6 +174,9 @@ public class BoardUI extends JPanel implements ActionListener, ComponentListener
 	public void sendToSidePanel(Pawn[][] pawns, int[][] counters) {
 		if(sidePanel != null) {
 			sidePanel.updateBoard(pawns, counters);
+		} else {
+			addSidePanel();
+			sidePanel.updateBoard(pawns, counters);	
 		}
 	}
 
@@ -197,12 +200,10 @@ public class BoardUI extends JPanel implements ActionListener, ComponentListener
 					// FORFEIT
 					if (JOptionPane.showConfirmDialog(null, "Are you sure you want to forfeit the game?") == 0) {
 						viewer.sendObject("FORFEIT");
-						endGame();
 						close();
 					}
 				}
 
-				
 
 			} else {
 				viewer.switchToMenu();

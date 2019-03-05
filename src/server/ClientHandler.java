@@ -104,13 +104,13 @@ public class ClientHandler implements Runnable {
 								+ allConnected.get(opponent).socket.getInetAddress() + System.lineSeparator());
 
 					} else if (str.startsWith("WIN")) {
-						highscore.addScore(userName, 1);
+						//highscore.addScore(userName, 1);
 						sendToOpponent("WIN," + userName);
 						log.addToLog("Username : " + userName + " has WON the game" + socket.getInetAddress()
 								+ System.lineSeparator());
 
 					} else if (str.startsWith("FORFEIT")) {
-						highscore.addScore(opponent, 1); // opponent wins
+						//highscore.addScore(opponent, 1); // opponent wins
 						sendToOpponent("FORFEIT," + userName +","+ opponent);
 						log.addToLog("Username : " + userName + " has FORFEIT the game" + socket.getInetAddress()
 								+ System.lineSeparator());
@@ -148,7 +148,6 @@ public class ClientHandler implements Runnable {
 								+ System.lineSeparator());
 
 					} else if(str.startsWith("OPPONENT_FORFEITED")) {
-						System.out.println(userName + " won a forfeited match, now in CH");
 						available.put(userName, this);
 						opponent = null;
 						aGame.remove(userName);
