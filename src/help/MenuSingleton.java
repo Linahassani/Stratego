@@ -8,6 +8,9 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -31,7 +34,7 @@ import ui.Common;
  * @author kuras
  *
  */
-public class MenuSingleton extends JPanel implements ListSelectionListener {
+public class MenuSingleton extends JPanel implements ListSelectionListener, WindowListener {
 
 	/**
 	 * 
@@ -50,9 +53,9 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 	private JScrollPane scrollTextArea = new JScrollPane(textArea);
 	private HelpTopics helpTopics = new HelpTopics();
 	private static MenuSingleton menuSingleton = null;
+	private HelpButtonSingleton button;
 
 	private MenuSingleton() {
-		System.out.println("MenuSingleton - init");
 		this.setPreferredSize(new Dimension(500, 500));
 		this.setLayout(new FlowLayout());
 		this.setOpaque(true);
@@ -71,6 +74,7 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		this.add(textArea);
 		// So the user can't update or delete instructions.
 		textArea.setEditable(false);
+		button = HelpButtonSingleton.getInstance();
 
 		// JFrame frame = new JFrame();
 		// frame.setPreferredSize(new Dimension(500, 400));
@@ -101,6 +105,7 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 	public void showHelpMenu() {
 		JFrame frame = new JFrame();
 
+		frame.addWindowListener(this);
 		frame.setResizable(false);
 		frame.setLayout(new FlowLayout());
 		frame.add(this);
@@ -120,7 +125,22 @@ public class MenuSingleton extends JPanel implements ListSelectionListener {
 		int index = list.getSelectedIndex();
 		String listValue = list.getSelectedValue();
 		this.textArea.setText(helpTopics.getTopic(listValue));
-
 	}
+
+	public void windowOpened(WindowEvent e) {}
+
+	public void windowClosing(WindowEvent e) {
+		button.setActive(true);
+	}
+
+	public void windowClosed(WindowEvent e) {}
+
+	public void windowIconified(WindowEvent e) {}
+
+	public void windowDeiconified(WindowEvent e) {}
+
+	public void windowActivated(WindowEvent e) {}
+
+	public void windowDeactivated(WindowEvent e) {}
 
 }

@@ -3,6 +3,9 @@ package help;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -78,6 +81,10 @@ public class HelpButtonSingleton extends JButton implements ActionListener {
 		}
 		return helpButton;
 	}
+	
+	public void setActive(boolean bol) {
+		this.setEnabled(bol);
+	}
 
 	// //TEST
 	// public static void main(String[] args) {
@@ -100,10 +107,10 @@ public class HelpButtonSingleton extends JButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this) {
-
 			if (helpMenu == null) {
-				helpMenu = MenuSingleton.getMenuSingleton();
+				helpMenu = MenuSingleton.getMenuSingleton();	
 			}
+			setActive(false);
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -114,4 +121,5 @@ public class HelpButtonSingleton extends JButton implements ActionListener {
 		}
 
 	}
+
 }

@@ -113,8 +113,12 @@ public class LobbyUI extends JPanel implements ActionListener {
 	public void attemptLogin() {
 		userName = JOptionPane.showInputDialog("Enter your username to sign in");
 		if(userName != null) {
-			while(userName.length() <= 3) {
-				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+			while(userName.trim().length() <= 2 || userName.trim().length() >= 20) {
+				if(userName.trim().length() <= 2) {
+					userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+				} else {
+					userName = JOptionPane.showInputDialog("The username was to long, enter a new one.");
+				}
 			}	
 			viewer.startClient("USERNAME,"+userName);
 			try {
@@ -127,8 +131,12 @@ public class LobbyUI extends JPanel implements ActionListener {
 	public void userNameExists() {
 		userName = JOptionPane.showInputDialog("The username you entered was already taken. Try another one.");
 		if(userName != null) {
-			while(userName.length() <= 3) {
-				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+			while(userName.trim().length() <= 2 || userName.trim().length() >= 20) {
+				if(userName.trim().length() <= 2) {
+					userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+				} else {
+					userName = JOptionPane.showInputDialog("The username was to long, enter a new one.");
+				}
 			}	
 			viewer.sendObject(("USERNAME,"+userName));
 			try {
