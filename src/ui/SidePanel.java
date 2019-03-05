@@ -239,20 +239,18 @@ public class SidePanel extends JPanel implements ActionListener {
 	 * Sends a request to save the user setup with the given name.
 	 */
 	private void saveSetup() {
-		String userSetupName;
+		String userSetupName ="";
+		int input = JOptionPane.showConfirmDialog(null,"Would you like to overwrite (" + loadedSetupName + ")");
 
-		if(loadedSetupName != null && JOptionPane.showConfirmDialog(null, 
-				"Would you like to overwrite (" + loadedSetupName + ")") == JOptionPane.YES_OPTION) {
+		if(loadedSetupName != null && input == 0) {
 			userSetupName = loadedSetupName;
-		} else {
+		} else if (loadedSetupName != null && input == 1){
 			userSetupName = JOptionPane.showInputDialog(null,"Enter a new setup name");
-		}
+		} 
 
 		if(userSetupName != null && userSetupName != "") {
 			viewer.saveUserSetup(userSetupName);
-		} else {
-			JOptionPane.showMessageDialog(null, "Please enter a setup name");
-		}
+		} 
 
 		loadBtn.setEnabled(userSetups.hasSetup());
 	}

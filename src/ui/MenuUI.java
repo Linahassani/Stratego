@@ -58,7 +58,7 @@ public class MenuUI extends JPanel implements ActionListener {
 		add(btnSettings);
 		//New here
 		add( Box.createVerticalStrut(10));
-		btnHelp = Common.newButton("Help", this);
+		btnHelp = Common.newButton("Rules", this);
 		btnHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(btnHelp);
 		add( Box.createVerticalStrut(10) );
