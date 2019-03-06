@@ -37,6 +37,7 @@ public class SoundPlayer implements ActionListener {
 	private final static String PAWN_REMOVE = "files/sounds/pawnRemove.wav";
 	private final static String WINNER_MUSIC = "files/sounds/winner.wav";
 	private final static String LOSER_MUSIC = "files/sounds/loser.wav";
+	private final static String SWORD_FIGHT = "files/sounds/swordFight.wav";
 	private boolean playAudioEffects, playMusic;
 	private int effectsVolume, musicVolume;
 	private SoundClip activeMusic;
@@ -141,6 +142,10 @@ public class SoundPlayer implements ActionListener {
 	
 	public void playLoserMusic() {
 		playMusic(LOSER_MUSIC);
+	}
+	
+	public void playSwordFight() {
+		playSoundEffect(SWORD_FIGHT);
 	}
 
 	public void actionPerformed(ActionEvent e) {

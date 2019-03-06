@@ -440,6 +440,7 @@ public abstract class Logic {
 	 * @return {@link Pawn} The winner
 	 */
 	public Pawn fight(Pawn attacker, Pawn defender) {
+		SoundPlayer.getInstance().playSwordFight();
 
 		if (defender instanceof Flag) {
 			if (attacker.getColor() == Color.BLUE) {
