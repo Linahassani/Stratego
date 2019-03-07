@@ -2,10 +2,13 @@ package game;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import game.Game.State;
 import pawns.Pawn;
 import pawns.Pawn.Color;
+import ui.FightPanel;
 
 /**
  * Logic for hotseat games
@@ -176,9 +179,15 @@ public class HotseatLogic extends Logic {
 		hidePawns(attacker.getColor());
 		showPawn(defender);
 		showPawn(attacker);
-		showMessage("Show attack", "Attack");
+		showFight(attacker, defender);
+		//showMessage("Show attack", "Attack");
 
 		return super.fight(attacker, defender);
+	}
+	
+	public void showFight(Pawn attacker, Pawn defender) {
+		FightPanel panel = new FightPanel(attacker, defender);
+		JOptionPane.showMessageDialog(null,panel,"Battle",JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
