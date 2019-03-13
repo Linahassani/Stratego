@@ -1,10 +1,17 @@
 
 # Created by https://www.gitignore.io/api/java,macos,eclipse
 
+### Stratego Junk ###
+
+.dat
+.txt
+
+
 ### Eclipse ###
 
 .metadata
 bin/
+libs/
 tmp/
 *.tmp
 *.bak
