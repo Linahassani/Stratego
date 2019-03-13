@@ -57,17 +57,16 @@ public class ClientHandler implements Runnable {
 				if (obj instanceof String) {
 					String str = (String) obj;
 
-					System.out.println("ClientHandler message received: " + str + " from: "
-							+ ((userName != null) ? userName : "Unknown"));
+//					System.out.println("ClientHandler message received: " + str + " from: " //Visa igen när servern är fixad
+//							+ ((userName != null) ? userName : "Unknown"));
 
 					if (str.startsWith("USERNAME")) {
 						boolean exist = allConnected.nameExist(str.substring(str.indexOf(",") + 1));
 						
 						if (!exist) {
 							userName = str.substring(str.indexOf(",") + 1);
-							System.out.println(userName);
-							log.addToLog("New user : " + userName + " connected with ip : " + socket.getInetAddress()
-									+ System.lineSeparator());
+//							log.addToLog("New user : " + userName + " connected with ip : " + socket.getInetAddress()
+//									+ System.lineSeparator());
 							connected();
 							updateAvailable();
 							opponent = null;
@@ -105,14 +104,14 @@ public class ClientHandler implements Runnable {
 								+ allConnected.get(opponent).socket.getInetAddress() + System.lineSeparator());
 
 					} else if (str.startsWith("WIN")) {
-						highscore.addScore(userName, 1);
+						//highscore.addScore(userName, 1);
 						sendToOpponent("WIN," + userName);
 						log.addToLog("Username : " + userName + " has WON the game" + socket.getInetAddress()
 								+ System.lineSeparator());
 
 					} else if (str.startsWith("FORFEIT")) {
-						highscore.addScore(opponent, 1); // opponent wins
-						sendToOpponent("FORFEIT," + userName);
+						//highscore.addScore(opponent, 1); // opponent wins
+						sendToOpponent("FORFEIT," + userName +","+ opponent);
 						log.addToLog("Username : " + userName + " has FORFEIT the game" + socket.getInetAddress()
 								+ System.lineSeparator());
 						available.put(userName, this);
@@ -148,6 +147,12 @@ public class ClientHandler implements Runnable {
 						log.addToLog("The game between " + userName + " and " + opponent + " has resulted in a draw"
 								+ System.lineSeparator());
 
+					} else if(str.startsWith("OPPONENT_FORFEITED")) {
+						available.put(userName, this);
+						opponent = null;
+						aGame.remove(userName);
+						updateAvailable();
+						
 					} else {
 						sendToOpponent(str);
 					}
@@ -233,11 +238,14 @@ public class ClientHandler implements Runnable {
 			ois.close();
 			oos.close();
 		} catch (IOException e) {
-			log.addToLog("ClientHandler : disconnected " + userName + " with ip :" + temp.socket.getInetAddress()
-					+ "has disconnected" + e.toString() + e.getStackTrace()[0].getLineNumber()
-					+ System.lineSeparator());
+			System.out.println("Error vid socketclose");
+//			log.addToLog("ClientHandler : disconnected " + userName + " with ip :" + temp.socket.getInetAddress()
+//					+ "has disconnected" + e.toString() + e.getStackTrace()[0].getLineNumber()
+//					+ System.lineSeparator());
 		}
+		System.out.println(userName + " DISCONNECTED");
 		listener.updateUI();
+		
 	}
 	
 	/**

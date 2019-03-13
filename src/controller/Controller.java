@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -14,6 +15,7 @@ import game.OnlineLogic;
 import game.Position;
 import game.SelectValue;
 import game.SoundPlayer;
+import highscore.HSDatabase;
 import pawns.Pawn;
 import pawns.Pawn.Color;
 import ui.Viewer;
@@ -36,6 +38,7 @@ public class Controller {
 	private UserSetups userSetups;
 	private Connect connect;
 	private ExecutorService executor;
+	private HSDatabase db;
 
 	private static final String IP = "localhost";
 
@@ -49,6 +52,7 @@ public class Controller {
 		userSettings = UserSettings.getInstance();
 		userGames = UserGames.getInstance();
 		userSetups = UserSetups.getInstance();
+		db = new HSDatabase();
 
 		SwingUtilities.invokeLater(() -> {
 			viewer = new Viewer(Controller.this);
@@ -110,7 +114,7 @@ public class Controller {
 			} else if (messageSplit[0].equals("MESSAGE")) {
 				viewer.newMessage(message);
 			} else if (messageSplit[0].equals("FORFEIT")) {
-				((OnlineLogic) logic).opponentForfeit();
+				((OnlineLogic) logic).opponentForfeit(messageSplit[1], messageSplit[2]);
 				viewer.addInfoMessage(messageSplit[1] + " forfeit the game");
 			} else if (messageSplit[0].equals("END_GAME")) {
 				viewer.addInfoMessage(messageSplit[1] + " left the game");
@@ -118,6 +122,8 @@ public class Controller {
 				viewer.showHighScores(messageSplit[1]);
 			} else if (messageSplit[0].equals("USERNAME_EXIST")) {
 				viewer.userNameExists();
+			} else if (messageSplit[0].equals("WIN")) {
+				updateWin(messageSplit[1]);
 			} else {
 				System.out.println("Header not handled: " + messageSplit[0]);
 			}
@@ -563,6 +569,37 @@ public class Controller {
 	 */
 	public void showEndAnimation(String string) {
 		viewer.showEndAnimation(string);
+	}
+	
+	/**
+	 * Returns the instance of the database communication object
+	 * @return
+	 */
+	public HSDatabase getDatabase() {
+		return this.db;
+	}
+	
+	public void opponentForfeit(String opponent, String user) {
+		JOptionPane.showMessageDialog(null, "Congratulations, you won! " + opponent + " forfeited the game.");
+		try {
+			db.gameWon(user);	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		sendObject("OPPONENT_FORFEITED");
+		viewer.updatetoLobby();
+	}
+	
+	/**
+	 * Updates the winner of a online game to the database
+	 * @param winner
+	 */
+	public void updateWin(String winner) {
+		try {
+			db.gameWon(winner);	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

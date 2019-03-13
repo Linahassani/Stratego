@@ -36,7 +36,7 @@ public class UIConnected extends JFrame implements ActionListener {
 		
 		//Added code below.
 		setLayout(new BorderLayout());
-		this.add(new JLabel("listening for incomming clients.."),BorderLayout.NORTH);
+		this.add(new JLabel("listening for incoming clients.."),BorderLayout.NORTH);
 		
 		setMinimumSize(new Dimension(250, 400));
 		setPreferredSize(new Dimension(250, 400));
@@ -55,7 +55,7 @@ public class UIConnected extends JFrame implements ActionListener {
 	public void updateList() {
 		ArrayList<String> tempusers = allconnected.getArray();
 		
-		System.out.println("UI"+tempusers);
+		//System.out.println("UI"+tempusers);
 		getContentPane().removeAll();
 		setMinimumSize(new Dimension(250, 400));
 		setPreferredSize(new Dimension(250, 400));
@@ -82,9 +82,9 @@ public class UIConnected extends JFrame implements ActionListener {
 			clientPnl.add(clientBtn);
 			panel.add(clientPnl);
 		}
-			panel.revalidate();
-			panel.repaint();
-		}
+		panel.revalidate();
+		panel.repaint();
+	}
 	
 	/**
 	 * method that determine which button was clicked and tells controller to disconnect the user

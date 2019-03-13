@@ -14,6 +14,9 @@ To start the server run the StartUp.java class in the server package.
 
 The ip address to the server can be changed in Controller.java.
 
+The applications uses a database to keep track of highscore and the different players in multiplayer. To be able to access this, you need 
+to download the postgresSQL from their website: https://www.postgresql.org/download/ and follow their instructions. After all the installations are done you need to go into your eclipse (or any other IDE thats running this program). Right-click on your "stratego" folder and click on properties. Then click on Java Build Path -> Libaries -> Add External Jars... Then find the postgresSQL.jar file (that you got from the postgresSQL download and click on it. Click on open and then apply and close. Now your eclipse or any other IDE should work with postgresSQL. 
+
 
 Produktbeskrivning<br>
 Produkten är ett strategispel utvecklat i Java. Spelet kallas för Stratego, vilket är ett brädspel för två spelare. Stratego spelas på ett 10x10 stort rutnät. Varje spelare har 40 pjäser, varav en är en fana. Målet med spelet är att erövra motståndarens fana eller slå ut alla rörliga pjäser. 

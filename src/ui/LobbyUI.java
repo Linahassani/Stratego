@@ -2,11 +2,13 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import help.HelpButtonSingleton;
+import highscore.HSDatabase;
 
 /**
  * Multiplayer lobby UI. Holds information and statistics for the current user and show a list off available players.
@@ -37,6 +42,10 @@ public class LobbyUI extends JPanel implements ActionListener {
 	private JLabel lblUserName, lblUserIcon, lblGamesPlayed, lblGamesWon, lblConnect; // username 
 	private String userName;
 	private boolean entered;
+	private LobbyHeader header;
+	private boolean headerInit = false;
+	private boolean listInit = false;
+	private HSDatabase database;
 		
 	public LobbyUI(Viewer viewer) {		
 		this.viewer = viewer;
@@ -45,6 +54,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(50,0,0,0));
 		setPreferredSize(new Dimension(600,600));
+		database = viewer.getDatabase();
 		
 		lblConnect = new JLabel("Connecting to server..");
 		lblConnect.setFont(lblConnect.getFont().deriveFont(30f));
@@ -76,6 +86,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 				updateAvailablePlayers(message);
 			} else {
 				enterLobby(message);// userList with header
+				
 			}
 			
 		}
@@ -86,10 +97,12 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param list List of available players.
 	 */
 	public void userList(String list) {
+		System.out.println(userName + " updates Userlist: " + list);
 		if(entered) {
 			updateAvailablePlayers(list);
 		} else {
 			enterLobby(list);
+			
 		}
 	}
 	
@@ -100,10 +113,17 @@ public class LobbyUI extends JPanel implements ActionListener {
 	public void attemptLogin() {
 		userName = JOptionPane.showInputDialog("Enter your username to sign in");
 		if(userName != null) {
-			while(userName.length() <= 3) {
-				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+			while(userName.trim().length() <= 3 || userName.trim().length() >= 26) {
+				if(userName.trim().length() <= 3) {
+					userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+				} else {
+					userName = JOptionPane.showInputDialog("The username was to long, enter a new one.");
+				}
 			}	
 			viewer.startClient("USERNAME,"+userName);
+			try {
+				database.addPlayer(userName);
+			}catch(SQLException e) {}
 			viewer.showCard("Lobby");
 		}	
 	}
@@ -111,10 +131,17 @@ public class LobbyUI extends JPanel implements ActionListener {
 	public void userNameExists() {
 		userName = JOptionPane.showInputDialog("The username you entered was already taken. Try another one.");
 		if(userName != null) {
-			while(userName.length() <= 3) {
-				userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+			while(userName.trim().length() <= 3 || userName.trim().length() >= 26) {
+				if(userName.trim().length() <= 3) {
+					userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
+				} else {
+					userName = JOptionPane.showInputDialog("The username was to long, enter a new one.");
+				}
 			}	
 			viewer.sendObject(("USERNAME,"+userName));
+			try {
+				database.addPlayer(userName);
+			}catch(SQLException e) {}
 		}
 	}
 	
@@ -123,15 +150,23 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param players
 	 */
 	public void enterLobby(String players) {
-		System.out.println("enterLobby - players: " + players);
+		//System.out.println("enterLobby - players: " + players);
 		btnHighScores.setVisible(true);
 		entered = true;
 		remove(lblConnect);
 		btnDisconnect.setText("Disconnect");
-		add(new LobbyHeader(),BorderLayout.NORTH);		
-		playerList = new PlayerList(this);
+		if(!headerInit) {
+			header = new LobbyHeader();
+			headerInit = true;
+		}
+		add(header,BorderLayout.NORTH);
+		if(!listInit) {
+			playerList = new PlayerList(this);
+			listInit = true;
+		}
 		add(playerList,BorderLayout.CENTER);
 		playerList.initialize(players);
+		updateUserInfo();
 		reDraw();
 	}
 	
@@ -140,17 +175,30 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * @param players
 	 */
 	public void updateAvailablePlayers(String players) {
+		//System.out.println("Availible Players: " + players);
 		playerList.initialize(players);
 	}
 	
 	/**
-	 * Updates the statistics of the current user.
-	 * @param gamesPlayed
-	 * @param gamesWon
+	 * Updates the lobbyheader with username and statistics from database
+	 * - Jakob
 	 */
-	public void updateUserStats(int gamesPlayed, int gamesWon) {
-		lblGamesPlayed.setText("Games played: " +  gamesPlayed);
-		lblGamesWon.setText("Games won: " + gamesWon + " (" + (gamesWon/gamesPlayed * 100) + ")");
+	public void updateUserInfo() {
+		lblUserName.setText(userName);
+		double gamesPlayed = 0;
+		double gamesWon = 0;
+		try {
+			gamesPlayed = database.getGamesPlayed(userName);
+			gamesWon = database.getGamesWon(userName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		double winRatio = gamesWon/gamesPlayed * 100;
+		int winR = (int) winRatio;
+		int played = (int) gamesPlayed;
+		int won = (int) gamesWon;
+		lblGamesPlayed.setText("Games played: " +  played);
+		lblGamesWon.setText("Games won: " + won + " (" + winR + "%)");
 	}
 	
 	/**
@@ -237,8 +285,8 @@ public class LobbyUI extends JPanel implements ActionListener {
 			setBorder(new EmptyBorder(0,120,0,120));
 			setOpaque(false);
 			
-			JPanel userInfo = new JPanel();			
-			lblUserName = new JLabel(userName);
+			JPanel userInfo = new JPanel();
+			lblUserName = new JLabel();
 			lblUserIcon = new JLabel(new ImageIcon("images/user.png"));
 			lblUserIcon.setBorder(new LineBorder(Color.BLACK,2));			
 			userInfo.setOpaque(false);
@@ -248,12 +296,12 @@ public class LobbyUI extends JPanel implements ActionListener {
 			
 			JPanel userStatistics = new JPanel();
 			userStatistics.setLayout(new GridLayout(0,2));
-			lblGamesPlayed = new JLabel("Games played: 20");
-			lblGamesWon = new JLabel("Games won: 15 (75%)");
+			lblGamesPlayed = new JLabel("Games played: 0");
+			lblGamesWon = new JLabel("Games won: 0 (0%)");
 			userStatistics.setOpaque(false);
 			userStatistics.add(lblGamesPlayed);
 			userStatistics.add(lblGamesWon);			
-			add(userStatistics, BorderLayout.EAST);			
+			add(userStatistics, BorderLayout.EAST);	
 		}
 		
 		protected void paintComponent(Graphics g) {        

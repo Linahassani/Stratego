@@ -17,7 +17,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * The start/main menu of the game. Used to navigate through the application.
- * @author Henrik Sandström
+ * @author Henrik Sandstrï¿½m
  */
 public class MenuUI extends JPanel implements ActionListener {
 
@@ -25,7 +25,7 @@ public class MenuUI extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 2482189871131911541L;
-	private JButton btnNewGame, btnExit, btnLoad, btnSettings, btnLobby;
+	private JButton btnNewGame, btnExit, btnLoad, btnSettings, btnLobby, btnHelp;
 	private Viewer viewer;
 
 	/**
@@ -56,6 +56,11 @@ public class MenuUI extends JPanel implements ActionListener {
 		btnSettings = Common.newButton("Settings", this);
 		btnSettings.setAlignmentX(Component.CENTER_ALIGNMENT);
 		add(btnSettings);
+		//New here
+		add( Box.createVerticalStrut(10));
+		btnHelp = Common.newButton("Rules", this);
+		btnHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(btnHelp);
 		add( Box.createVerticalStrut(10) );
 		btnExit = Common.newButton("Exit", this);		
 		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,7 +76,9 @@ public class MenuUI extends JPanel implements ActionListener {
 			viewer.switchToLobby();
 		}else if(e.getSource() == btnSettings) {
 			viewer.showCard("Settings");
-		}else if(e.getSource() == btnExit) {
+		}else if (e.getSource() == btnHelp) { // Nytt
+			viewer.showCard("Help");
+		}	else if(e.getSource() == btnExit) {
 			viewer.dispatchEvent(new WindowEvent(viewer, WindowEvent.WINDOW_CLOSING));
 		}
 	}

@@ -1,5 +1,7 @@
 package server;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Observable;
 
@@ -12,14 +14,31 @@ import java.util.Observable;
 public class Controller extends Observable {
 	private Log log = Log.getInstance();
 	private UIConnected uic;
+	private ServerUI serverUI;
 
 	
 	/**
 	 * Constructor that creates a new ServerUI and new ui that shows connected users
 	 */
 	public Controller() {
-		new ServerUI(this);
+		serverUI = new ServerUI(this);
+		serverUI.setIPtoConnect(getIP());
 		uic=new UIConnected(this);
+	}
+	
+	/**
+	 * Returns the ip of the machine that is currently running this
+	 * program.
+	 * @return The IP address of this machine.
+	 */
+	public String getIP() {
+		try {
+			InetAddress localIP = InetAddress.getLocalHost();
+			return localIP.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return "Failed to resolve IP";
 	}
 
 	/**

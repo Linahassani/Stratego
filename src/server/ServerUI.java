@@ -147,6 +147,10 @@ public class ServerUI extends JPanel implements ActionListener, ItemListener {
 			}
 		}
 	}
+	
+	public void setIPtoConnect(String ip) {
+		area.setText(ip);
+	}
 
 	/**
 	 * ActionListener on the buttons. Calls methods in the controller and sets the

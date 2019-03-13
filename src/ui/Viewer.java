@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import game.Game;
 import game.Position;
 import game.SelectValue;
 import game.SoundPlayer;
+import highscore.HSDatabase;
 import pawns.Pawn;
 
 /**
@@ -33,6 +35,7 @@ public class Viewer extends JFrame{
 	private CardLayout cards;
 	private LobbyUI lobby;
 	private HighScoresUI highScores;
+	private HelpUI help; //Nytt
 	private Controller controller;
 	private Matrix matrix;
 	private int defaultWidth, defaultHeight;
@@ -72,6 +75,8 @@ public class Viewer extends JFrame{
 		mainPanel.add(lobby, "Lobby");
 		highScores = new HighScoresUI(this);
 		mainPanel.add(highScores, "HighScores");
+		help = new HelpUI(this);
+		mainPanel.add(help, "Help");
 
 		add(mainPanel);	
 		pack();		
@@ -80,8 +85,8 @@ public class Viewer extends JFrame{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);		
 		SoundPlayer.getInstance().playStartGame();
 		Toolkit.getDefaultToolkit().setDynamicLayout( false );
-		defaultWidth = 700;
-		defaultHeight = 750;		
+		defaultWidth = 1200;
+		defaultHeight = 900;		
 	}
 	
 	/**
@@ -136,6 +141,14 @@ public class Viewer extends JFrame{
 	}
 	
 	/**
+	 * Returns the database object from controller
+	 * @return
+	 */
+	public HSDatabase getDatabase() {
+		return controller.getDatabase();
+	}
+	
+	/**
 	 * Starts a new Hotseat game and switches to board.
 	 * {@link Controller#startGame()}
 	 */
@@ -154,6 +167,12 @@ public class Viewer extends JFrame{
 		board.startMultiplayerGame(userName, opponentName);
 		showCard("Board");
 		SoundPlayer.getInstance().playGameMusic();
+		HSDatabase db = getDatabase();
+		try {
+			db.gamePlayed(userName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -172,7 +191,7 @@ public class Viewer extends JFrame{
 	 * @param highScoreList List of players with their high scores
 	 */
 	public void showHighScores(String highScoreList) {
-		highScores.initialize(highScoreList);
+	//	highScores.initialize(highScoreList);
 		showCard("HighScores");
 	}
 	
@@ -448,5 +467,21 @@ public class Viewer extends JFrame{
 	 */
 	public void showEndAnimation(String string) {
 		matrix.showEndAnimation(string);
+	}
+	
+	/**
+	 * Method used to bring user's to lobby from onlinegame
+	 */
+	public void updatetoLobby() {
+		board.close();
+		updateLobbyHeader();
+	}
+	
+	/**
+	 * Method updating the user information in LobbyUI
+	 */
+	public void updateLobbyHeader() {
+		controller.sendObject("UPDATE_REQUEST");
+		lobby.updateUserInfo();
 	}
 }

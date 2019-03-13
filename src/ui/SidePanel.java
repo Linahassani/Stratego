@@ -19,7 +19,7 @@ import user.UserSetups;
 
 /**
  * Side panel needed at the beginning of the game for placing the pawns on the Matrix.
- * @author Lukas Kuras & Henrik Sandström
+ * @author Lukas Kuras & Henrik Sandstrï¿½m
  */
 public class SidePanel extends JPanel implements ActionListener {
 
@@ -37,6 +37,8 @@ public class SidePanel extends JPanel implements ActionListener {
 	private JPanel buttonsPanel = new JPanel();
 	private JPanel buttonsContainer = new JPanel();
 	private BoardUI boardUI;
+	private int boardYSelected = -1;
+	private int boardXSelected = -1;
 	private String[] userSetupsNames;
 	private UserSetups userSetups;
 	private String loadedSetupName;
@@ -109,22 +111,26 @@ public class SidePanel extends JPanel implements ActionListener {
 	 * Re-adds the setup pawns. 
 	 */
 	private void redoBoard() {
-
 		buttonsContainer.removeAll();
 		for (int i = 0; i < boardGrid.length; i++) {
 			for (int k = 0; k < boardGrid[i].length; k++) {
 				JButton tempBtn = boardGrid[i][k];
+				if(i == boardYSelected && k == boardXSelected) {
+					tempBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
+					tempBtn.setSelected(true);
+				} else {
+					tempBtn.setSelected(false);
+					tempBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));
+				}
+				tempBtn.setContentAreaFilled(false);
 				tempBtn.removeActionListener(this);
 				tempBtn.addActionListener(this);
-				tempBtn.setSelected(false);
-				tempBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));
-				tempBtn.setContentAreaFilled(false);
 				buttonsContainer.add(tempBtn);
 
 			}
 		}
 
-		// buttonsContainer.revalidate();
+		//buttonsContainer.revalidate();
 		this.revalidate();
 		this.repaint();
 	}
@@ -203,30 +209,48 @@ public class SidePanel extends JPanel implements ActionListener {
 			setupPawnBtn.setSelected(false);
 			setupPawnBtn.setBorder(BorderFactory.createLineBorder(new Color(72, 74, 76), 2));				
 		}else{
-			resetSelectedPawn(getSelectedPawn());					
+			resetSelectedPawn(getSelectedPawn());
+			getButtonCoordinates(setupPawnBtn);
 			setupPawnBtn.setSelected(true);
 			setupPawnBtn.setBorder(BorderFactory.createDashedBorder(Color.WHITE, 5, 2));
+			
 		}
 	}
+	
+	/**
+	 * Method to retrieve the "coordinates" of the button in the boardGrid 
+	 * @param btn
+	 * @return
+	 */
+	private void getButtonCoordinates(JButton btn) {
+		for (int i = 0; i < boardGrid.length; i++) {
+			for (int k = 0; k < boardGrid[0].length; k++) {
+				JButton tempBtn = (JButton) boardGrid[i][k];
+				if(tempBtn.equals(btn)) {
+					boardYSelected = i;
+					boardXSelected = k;
+				}	
+			}
+		}
+	}
+	
 
 	/**
 	 * Sends a request to save the user setup with the given name.
 	 */
 	private void saveSetup() {
-		String userSetupName;
+		String userSetupName ="";
+		int input = JOptionPane.showConfirmDialog(null,"Would you like to overwrite (" + loadedSetupName + ")");
 
-		if(loadedSetupName != null && JOptionPane.showConfirmDialog(null, 
-				"Would you like to overwrite (" + loadedSetupName + ")") == JOptionPane.YES_OPTION) {
+		if(loadedSetupName != null && input == 0) {
 			userSetupName = loadedSetupName;
-		} else {
+		} else if (loadedSetupName != null && input == 1){
 			userSetupName = JOptionPane.showInputDialog(null,"Enter a new setup name");
-		}
+		} 
 
 		if(userSetupName != null && userSetupName != "") {
 			viewer.saveUserSetup(userSetupName);
-		} else {
-			JOptionPane.showMessageDialog(null, "Please enter a setup name");
-		}
+		} 
 
 		loadBtn.setEnabled(userSetups.hasSetup());
 	}

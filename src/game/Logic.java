@@ -147,10 +147,12 @@ public abstract class Logic {
 	public void winner(Player winner) {
 		if(winner == null) {
 			setState(State.DRAW);
-		} else if(winner.getColor() == Color.BLUE) {
+
+	} else if(winner.getColor() == Color.BLUE) {
 			setState(State.WINNER_BLUE);
 		} else {
 			setState(State.WINNER_RED);
+
 		}
 		showPawns(Color.BLUE);
 		showPawns(Color.RED);
@@ -438,10 +440,13 @@ public abstract class Logic {
 	 * @return {@link Pawn} The winner
 	 */
 	public Pawn fight(Pawn attacker, Pawn defender) {
+		SoundPlayer.getInstance().playSwordFight();
 
 		if (defender instanceof Flag) {
 			if (attacker.getColor() == Color.BLUE) {
+				
 				winner(game.getBluePlayer());
+			
 				System.out.println("Blue player won");
 			} else {
 				winner(game.getRedPlayer());
