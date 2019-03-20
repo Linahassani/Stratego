@@ -109,6 +109,12 @@ public class SoundPlayer implements ActionListener {
 		this.effectsVolume = effectsVolume;
 		this.musicVolume = musicVolume;
 	}
+	
+	public boolean isPlaying() {
+		if(activeMusic != null)	return activeMusic.isPlaying();
+		else return false;
+		
+	}
 
 	public void playPawnStep() {
 		playSoundEffect(PAWN_STEP);

@@ -294,6 +294,10 @@ public class Viewer extends JFrame{
 	public void settingsChanged() {
 		controller.applySettings();
 	}
+	
+	public void volumeDragged(int newValue) {
+		controller.volumeTest(newValue);
+	}
 
 	/**
 	 * {@link Matrix#updateBoard(Pawn[][])}

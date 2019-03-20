@@ -383,6 +383,14 @@ public class Controller {
 			SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), userSettings.playMusic(),
 					userSettings.getEffectsVolume(), userSettings.getMusicVolume());
 			viewer.toggleFullscreen(userSettings.useFullscreen());
+
+			SoundPlayer.getInstance().playStartGame();
+		});
+	}
+	
+	public void volumeTest(int musicVolume) {
+		executor.submit(() -> {
+			SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
 		});
 	}
 
