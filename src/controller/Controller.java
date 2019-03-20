@@ -119,7 +119,8 @@ public class Controller {
 			} else if (messageSplit[0].equals("END_GAME")) {
 				viewer.addInfoMessage(messageSplit[1] + " left the game");
 			} else if (messageSplit[0].equals("HIGHSCORE")) {
-				viewer.showHighScores(messageSplit[1]);
+				//viewer.showHighScores(messageSplit[1]);
+				viewer.showHighScores();
 			} else if (messageSplit[0].equals("USERNAME_EXIST")) {
 				viewer.userNameExists();
 			} else if (messageSplit[0].equals("WIN")) {

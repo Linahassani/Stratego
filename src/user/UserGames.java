@@ -15,7 +15,7 @@ import pawns.Pawn;
 public class UserGames {
 
 	private static UserGames instance;
-	private ArrayList<Game> games = new ArrayList<Game>();	
+	private ArrayList<Game> games;;	
 	private static final String FILE_PATH = "files/user/games.dat";
 
 	/**
@@ -43,6 +43,9 @@ public class UserGames {
 		Object object = FileHandler.readObject(FILE_PATH);
 		if(object instanceof ArrayList) {
 			games = (ArrayList<Game>)object;
+		}
+		else {
+			games = new ArrayList<Game>();
 		}
 	}
 	

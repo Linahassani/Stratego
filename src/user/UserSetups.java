@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import pawns.Pawn;
+import pawns.Pawn.Color;
 
 /**
  * Singleton class for saving, loading and handling setup board grids.
@@ -31,6 +32,10 @@ public class UserSetups {
 		Object object = FileHandler.readObject(FILE_PATH);
 		if(object instanceof HashMap) {
 			userSetups = (HashMap<String, Pawn[][]>)object;
+		}
+		else {
+			userSetups = new HashMap<String, Pawn[][]>();
+			FileHandler.writeObject(FILE_PATH, userSetups);
 		}
 	}
 	

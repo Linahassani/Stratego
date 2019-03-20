@@ -25,7 +25,7 @@ public abstract class FileHandler {
 				return object;
 			}		
 		} catch (Exception e) {
-			e.printStackTrace();
+			// No file in location, not a problem!
 		}
 		return false;
 	}
