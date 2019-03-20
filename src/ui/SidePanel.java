@@ -240,19 +240,23 @@ public class SidePanel extends JPanel implements ActionListener {
 	 */
 	private void saveSetup() {
 		String userSetupName ="";
-		int input = JOptionPane.showConfirmDialog(null,"Would you like to overwrite (" + loadedSetupName + ")");
-
-		if(loadedSetupName != null && input == 0) {
-			userSetupName = loadedSetupName;
-		} else if (loadedSetupName != null && input == 1){
+		if (loadedSetupName!=null) {
+			int input = JOptionPane.showConfirmDialog(null,"Would you like to overwrite (" + loadedSetupName + ")");
+			if(input == 0) {
+				userSetupName = loadedSetupName;
+			} else if (input == 1){
+				userSetupName = JOptionPane.showInputDialog(null,"Enter a new setup name");
+			} 
+		}
+		else {
 			userSetupName = JOptionPane.showInputDialog(null,"Enter a new setup name");
-		} 
+		}
 
 		if(userSetupName != null && userSetupName != "") {
 			viewer.saveUserSetup(userSetupName);
 		} 
 
-		loadBtn.setEnabled(userSetups.hasSetup());
+		loadBtn.setEnabled(userSetups.hasSetup());	// Likely useless since the boolean is returned before the file writer is done
 	}
 
 	/**
@@ -274,6 +278,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		}else {
 			if (a.getSource() == readyBtn ) {
 				boardUI.setupDone();
+				updateButtons(false);
 			}else if(a.getSource() == saveBtn) {
 				saveSetup();
 			}else if(a.getSource() == loadBtn) {

@@ -1,5 +1,6 @@
 package user;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -49,11 +50,18 @@ public class UserSettings{
 	 * Reads settings from the user-file or uses the standard settings.
 	 */
 	private void readSettings() {
-		Object object = FileHandler.readObject(FILE_NAME);
-		if(object instanceof HashMap) {
-			userSettings = (HashMap<String, Integer>)object;
-		}else {
+		try {
+			Object object = FileHandler.readObject(FILE_NAME);
+			if (object instanceof HashMap) {
+				userSettings = (HashMap<String, Integer>)object;
+			}
+			else {
+				throw new FileNotFoundException();
+			}
+		}
+		catch (FileNotFoundException e) {
 			userSettings = STANDARD_SETTINGS;
+			FileHandler.writeObject(FILE_NAME, userSettings);
 		}
 	}
 	

@@ -127,7 +127,8 @@ public class ClientHandler implements Runnable {
 						updateAvailable();
 
 					} else if (str.startsWith("HIGHSCORE")) {
-						send("HIGHSCORE," + highscore.getHighscore());
+						//send("HIGHSCORE," + highscore.getHighscore());
+						send("HIGHSCORE");
 
 					} else if (str.startsWith("DISCONNECT")) {
 						disconnected();

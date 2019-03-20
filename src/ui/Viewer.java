@@ -114,7 +114,8 @@ public class Viewer extends JFrame{
 		if(messageSplit[0].equals("USER_LIST")) {
 			lobby.newMessage(message); //sends userList to lobbyUI
 		} else if(messageSplit[0].equals("MESSAGE")) {
-			board.addOpponentMessage(messageSplit[1]); //sends message to the chat panel
+			String m = message.substring(8); // A bit ugly, but makes sure stuff separated by comma is sent as well.
+			board.addOpponentMessage(m); //sends message to the chat panel
 		}
 	}
 	
@@ -190,7 +191,7 @@ public class Viewer extends JFrame{
 	 * Initializes and switches to the highScore panel
 	 * @param highScoreList List of players with their high scores
 	 */
-	public void showHighScores(String highScoreList) {
+	public void showHighScores() {//String highScoreList) {
 	//	highScores.initialize(highScoreList);
 		showCard("HighScores");
 	}
