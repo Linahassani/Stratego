@@ -295,8 +295,9 @@ public class Viewer extends JFrame{
 		controller.applySettings();
 	}
 	
-	public void volumeDragged(int newValue) {
-		controller.volumeTest(newValue);
+	public void audioTest(int newValue, boolean isMusic) {
+		if(isMusic) controller.volumeTest(newValue);
+		else controller.effectsVolumeTest(newValue);
 	}
 
 	/**

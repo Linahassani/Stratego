@@ -49,8 +49,8 @@ public class SoundPlayer implements ActionListener {
 		effectsVolume = 0;
 		musicVolume = -10;
 		UserSettings settings = UserSettings.getInstance();
-		updateSoundStatus(settings.playAudioEffects(),settings.playMusic(),
-				settings.getEffectsVolume(),settings.getMusicVolume());
+		updateMusicStatus(settings.playMusic(),settings.getMusicVolume());
+		updateEffectsStatus(settings.playAudioEffects(),settings.getEffectsVolume());
 	}
 
 	/**
@@ -78,12 +78,13 @@ public class SoundPlayer implements ActionListener {
 	 * @param musicFile
 	 */
 	private void playMusic(String musicFile) {
-		if(playMusic && (activeMusic == null || (activeMusic != null && !activeMusic.isPlaying() || 
-				(activeMusic.isPlaying() && activeMusic.getSoundPlaying().compareTo(musicFile) != 0)))) {
+		if(activeMusic == null || (activeMusic != null && !activeMusic.isPlaying() || 
+				(activeMusic.isPlaying() && activeMusic.getSoundPlaying().compareTo(musicFile) != 0))) {
 			if(activeMusic != null) {
 				activeMusic.stop();
 			}
-			activeMusic = new SoundClip(musicFile, musicVolume, true);
+			if (playMusic) activeMusic = new SoundClip(musicFile, musicVolume, true);
+			else activeMusic = new SoundClip(musicFile, -80, true);
 			new Thread(activeMusic).start();
 		}
 	}
@@ -95,19 +96,28 @@ public class SoundPlayer implements ActionListener {
 	 * @param effectsVolume
 	 * @param musicVolume
 	 */
-	public void updateSoundStatus(boolean playAudioEffects, boolean playMusic, int effectsVolume, int musicVolume) {
+	public void updateMusicStatus (boolean playMusic, int musicVolume) {
+	//public void updateSoundStatus (boolean playAudioEffects, boolean playMusic, int effectsVolume, int musicVolume) {
+		
 		if(activeMusic != null) {
 			if(playMusic && activeMusic.isPlaying()) {
 				activeMusic.changeVolume(musicVolume);
-			}else {
-				activeMusic.stop();
+			}
+			else {
+				activeMusic.changeVolume(-80);
+				//activeMusic.stop();
 			}			
-		} 
+		}
 
-		this.playAudioEffects = playAudioEffects;
+		//this.playAudioEffects = playAudioEffects;
 		this.playMusic = playMusic;
-		this.effectsVolume = effectsVolume;
+		//this.effectsVolume = effectsVolume;
 		this.musicVolume = musicVolume;
+	}
+	
+	public void updateEffectsStatus (boolean playAudioEffects, int effectsVolume) {
+		this.playAudioEffects = playAudioEffects;
+		this.effectsVolume = effectsVolume;
 	}
 	
 	public boolean isPlaying() {

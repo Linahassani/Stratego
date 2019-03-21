@@ -25,7 +25,7 @@ import user.UserSettings;
  * Window for showing and changing the current user settings.
  * @author Henrik Sandström
  */
-public class SettingsUI extends JPanel implements ActionListener, MouseMotionListener{
+public class SettingsUI extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 
 	/**
 	 * 
@@ -58,7 +58,6 @@ public class SettingsUI extends JPanel implements ActionListener, MouseMotionLis
 		slMusic.setMinimum(-40);
 		slMusic.setValue(-10);
 		slMusic.setPreferredSize(new Dimension(100, 20));
-		slMusic.addMouseMotionListener(this);
 		panel.add(slMusic);
 		
 		panel.add(new JLabel("Use audio effects"));
@@ -94,6 +93,15 @@ public class SettingsUI extends JPanel implements ActionListener, MouseMotionLis
 		userSettings = UserSettings.getInstance();
 
 		initialize();
+		addTestListeners();
+	}
+
+	private void addTestListeners() {
+		slMusic.addMouseMotionListener(this);
+		slEffects.addMouseListener(this);
+		cbMusic.addMouseListener(this);
+		cbAudio.addMouseListener(this);
+		
 	}
 
 	/**
@@ -131,10 +139,19 @@ public class SettingsUI extends JPanel implements ActionListener, MouseMotionLis
 		Common.paintComponent(g, this, Common.getNormalBackground());     
 	}
 
+	/*****************************
+	 * MouseMotionListener methods
+	 *****************************/
+	
+	/**
+	 * 
+	 * @param e
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (SoundPlayer.getInstance().isPlaying()) {
-			viewer.volumeDragged(slMusic.getValue());
+	//if (SoundPlayer.getInstance().isPlaying()) {		// change to button is active if music is always on!!
+		if (cbMusic.isSelected()) {
+		viewer.audioTest(slMusic.getValue(), true);
 		}
 		
 	}
@@ -145,4 +162,62 @@ public class SettingsUI extends JPanel implements ActionListener, MouseMotionLis
 		
 	}
 
+	/**********************
+	 * MouseListener methods
+	 **********************/
+	
+	/**
+	 * 
+	 * @param arg0
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (e.getSource().equals(cbMusic)) {
+			if (!cbMusic.isSelected()) {
+				viewer.audioTest(1, true);
+			}
+			else if (cbMusic.isSelected()) {
+				viewer.audioTest(slMusic.getValue(), true);
+			}
+
+		//	else if (!SoundPlayer.getInstance().isPlaying() && cbMusic.isSelected()) {
+				// TODO launch music in clever way
+		//		viewer.audioTest(slMusic.getValue(), true);
+		//	}
+		}
+
+		if (e.getSource().equals(cbAudio) || e.getSource().equals(slEffects)) {
+			if (cbAudio.isSelected()) {
+				viewer.audioTest(slEffects.getValue(), false);
+			}
+			else if (!cbAudio.isSelected()) {
+				viewer.audioTest(1, false);
+			}
+		}
+
+	}
 }

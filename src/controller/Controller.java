@@ -380,18 +380,44 @@ public class Controller {
 	 */
 	public void applySettings() {
 		executor.submit(() -> {
-			SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), userSettings.playMusic(),
-					userSettings.getEffectsVolume(), userSettings.getMusicVolume());
+			//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), userSettings.playMusic(),
+			//		userSettings.getEffectsVolume(), userSettings.getMusicVolume());
+			SoundPlayer.getInstance().updateEffectsStatus(userSettings.playAudioEffects(), userSettings.getEffectsVolume());
+			SoundPlayer.getInstance().updateMusicStatus(userSettings.playMusic(), userSettings.getMusicVolume());
 			viewer.toggleFullscreen(userSettings.useFullscreen());
-
-			SoundPlayer.getInstance().playStartGame();
 		});
 	}
 	
 	public void volumeTest(int musicVolume) {
-		executor.submit(() -> {
-			SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
-		});
+		if(musicVolume > 0) {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateMusicStatus(true, -80);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+		else {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateMusicStatus(true, musicVolume);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+
+	}
+	
+	public void effectsVolumeTest(int effectsVolume) {
+		if(effectsVolume > 0) {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateEffectsStatus(true, -80);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+		else {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateEffectsStatus(true, effectsVolume);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+
 	}
 
 	/**
