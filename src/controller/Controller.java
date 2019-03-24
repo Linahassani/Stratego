@@ -159,9 +159,9 @@ public class Controller {
 	 * 
 	 * @param userName The username to use
 	 */
-	public void startClient(String userName) {
+	public void startClient(String userName, String serverIP) {
 		executor.submit(() -> {
-			connect = new Connect(IP, 63050, this);// for handling connection with server
+			connect = new Connect(serverIP, 63050, this);// for handling connection with server
 
 			connect.startConnecion();
 			connect.sendMessage(userName);

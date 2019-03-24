@@ -248,14 +248,17 @@ public class Viewer extends JFrame{
 	/**
 	 * {@link Controller#startClient(String)}
 	 */
-	public void startClient(String userName) {
-		controller.startClient(userName);
+	public void startClient(String userName, String serverIP) {
+		controller.startClient(userName, serverIP);
 	}
 
 	/**
 	 * {@link Controller#disconnect()}
 	 */
 	public void disconnect() {
+		mainPanel.remove(lobby);
+		lobby = new LobbyUI(this);
+		mainPanel.add(lobby, "Lobby");
 		controller.disconnect();
 	}
 	
