@@ -159,9 +159,9 @@ public class Controller {
 	 * 
 	 * @param userName The username to use
 	 */
-	public void startClient(String userName) {
+	public void startClient(String userName, String serverIP) {
 		executor.submit(() -> {
-			connect = new Connect(IP, 63050, this);// for handling connection with server
+			connect = new Connect(serverIP, 63050, this);// for handling connection with server
 
 			connect.startConnecion();
 			connect.sendMessage(userName);
@@ -380,10 +380,44 @@ public class Controller {
 	 */
 	public void applySettings() {
 		executor.submit(() -> {
-			SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), userSettings.playMusic(),
-					userSettings.getEffectsVolume(), userSettings.getMusicVolume());
+			//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), userSettings.playMusic(),
+			//		userSettings.getEffectsVolume(), userSettings.getMusicVolume());
+			SoundPlayer.getInstance().updateEffectsStatus(userSettings.playAudioEffects(), userSettings.getEffectsVolume());
+			SoundPlayer.getInstance().updateMusicStatus(userSettings.playMusic(), userSettings.getMusicVolume());
 			viewer.toggleFullscreen(userSettings.useFullscreen());
 		});
+	}
+	
+	public void volumeTest(int musicVolume) {
+		if(musicVolume > 0) {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateMusicStatus(true, -80);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+		else {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateMusicStatus(true, musicVolume);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+
+	}
+	
+	public void effectsVolumeTest(int effectsVolume) {
+		if(effectsVolume > 0) {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateEffectsStatus(true, -80);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+		else {
+			executor.submit(() -> {
+				SoundPlayer.getInstance().updateEffectsStatus(true, effectsVolume);
+				//SoundPlayer.getInstance().updateSoundStatus(userSettings.playAudioEffects(), true, userSettings.getEffectsVolume(), musicVolume);
+			});
+		}
+
 	}
 
 	/**

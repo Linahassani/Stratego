@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -46,6 +49,7 @@ public class LobbyUI extends JPanel implements ActionListener {
 	private boolean headerInit = false;
 	private boolean listInit = false;
 	private HSDatabase database;
+	private String serverIP;
 		
 	public LobbyUI(Viewer viewer) {		
 		this.viewer = viewer;
@@ -111,21 +115,47 @@ public class LobbyUI extends JPanel implements ActionListener {
 	 * Requests a user name and sends it to the server 
 	 */
 	public void attemptLogin() {
-		userName = JOptionPane.showInputDialog("Enter your username to sign in");
-		if(userName != null) {
-			while(userName.trim().length() <= 3 || userName.trim().length() >= 26) {
-				if(userName.trim().length() <= 3) {
-					userName = JOptionPane.showInputDialog("The username was to short, enter a new one.");
-				} else {
-					userName = JOptionPane.showInputDialog("The username was to long, enter a new one.");
-				}
-			}	
-			viewer.startClient("USERNAME,"+userName);
+		//userName = JOptionPane.showInputDialog("Enter your username to sign in");
+		int option = loginInputScreen("Enter your username and the server ip to sign in");
+		//if(option == JOptionPane.OK_OPTION)
+		
+		while(option == JOptionPane.OK_OPTION && (userName.trim().length() <= 3 || userName.trim().length() >= 26)) {
+			if(userName.trim().length() <= 3) {
+				option = loginInputScreen("The username was to short, enter a new one.");
+			} else {
+				option = loginInputScreen("The username was to long, enter a new one.");
+			}
+		}	
+		if (option == JOptionPane.OK_OPTION) {
+
+
+			viewer.startClient("USERNAME,"+userName, serverIP);
 			try {
 				database.addPlayer(userName);
 			}catch(SQLException e) {}
 			viewer.showCard("Lobby");
 		}	
+	}
+	
+	private int loginInputScreen (String message) {
+		JTextField username, ip;
+		try {
+			ip = new JTextField(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			ip = new JTextField("");
+		}
+		username = new JTextField("");
+		Object [] m = {
+				message, System.lineSeparator(),
+				"Username:", username,
+				"Server", ip
+		};
+		int option = JOptionPane.showConfirmDialog(null, m, "Login", JOptionPane.OK_CANCEL_OPTION);
+		if (option == JOptionPane.OK_OPTION) {
+			userName = username.getText();
+			serverIP = ip.getText();
+		}
+		return option;
 	}
 	
 	public void userNameExists() {
@@ -320,9 +350,10 @@ public class LobbyUI extends JPanel implements ActionListener {
 			JButton tempBtn = (JButton)e.getSource();
 			
 			if(tempBtn == btnDisconnect) {
-				viewer.disconnect();
+				//viewer.disconnect();
 				btnDisconnect.setText("Cancel");
 				viewer.switchToMenu();
+				viewer.disconnect();
 				entered = false;
 				btnHighScores.setVisible(false);
 			} else if(tempBtn == btnHighScores) {

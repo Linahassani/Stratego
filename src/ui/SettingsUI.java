@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -15,13 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
 
+import game.SoundPlayer;
 import user.UserSettings;
 
 /**
  * Window for showing and changing the current user settings.
  * @author Henrik Sandström
  */
-public class SettingsUI extends JPanel implements ActionListener{
+public class SettingsUI extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 
 	/**
 	 * 
@@ -89,6 +93,15 @@ public class SettingsUI extends JPanel implements ActionListener{
 		userSettings = UserSettings.getInstance();
 
 		initialize();
+		addTestListeners();
+	}
+
+	private void addTestListeners() {
+		slMusic.addMouseMotionListener(this);
+		slEffects.addMouseListener(this);
+		cbMusic.addMouseListener(this);
+		cbAudio.addMouseListener(this);
+		
 	}
 
 	/**
@@ -98,12 +111,15 @@ public class SettingsUI extends JPanel implements ActionListener{
 		HashMap<String, Integer> temp = userSettings.getUserSettings();
 		cbMusic.setSelected(temp.get("music") == 1);
 		cbAudio.setSelected(temp.get("audioEffects") == 1);
+		slMusic.setValue(temp.get("musicVolume"));
+		slEffects.setValue(temp.get("effectsVolume"));
+		
 		cbFullscreen.setSelected(temp.get("fullscreen") == 1);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnBack) {
-			viewer.switchToMenu();
+			initialize();	// resets unsaved changes
 		}else if(e.getSource() == btnSave) {
 			HashMap<String, Integer> newUserSettings = new HashMap<String, Integer>();
 			newUserSettings.put("music", (cbMusic.isSelected() ? 1 : 0));
@@ -113,8 +129,9 @@ public class SettingsUI extends JPanel implements ActionListener{
 			newUserSettings.put("fullscreen", (cbFullscreen.isSelected() ? 1 : 0));
 			userSettings.writeSettings(newUserSettings);
 			
-			viewer.settingsChanged();
 		}
+		viewer.switchToMenu();
+		viewer.settingsChanged();	//unfortunately always a necessity as volume might have been edited
 	}
 	
 	protected void paintComponent(Graphics g) {        
@@ -122,4 +139,85 @@ public class SettingsUI extends JPanel implements ActionListener{
 		Common.paintComponent(g, this, Common.getNormalBackground());     
 	}
 
+	/*****************************
+	 * MouseMotionListener methods
+	 *****************************/
+	
+	/**
+	 * 
+	 * @param e
+	 */
+	@Override
+	public void mouseDragged(MouseEvent e) {
+	//if (SoundPlayer.getInstance().isPlaying()) {		// change to button is active if music is always on!!
+		if (cbMusic.isSelected()) {
+		viewer.audioTest(slMusic.getValue(), true);
+		}
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// unused
+		
+	}
+
+	/**********************
+	 * MouseListener methods
+	 **********************/
+	
+	/**
+	 * 
+	 * @param arg0
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (e.getSource().equals(cbMusic)) {
+			if (!cbMusic.isSelected()) {
+				viewer.audioTest(1, true);
+			}
+			else if (cbMusic.isSelected()) {
+				viewer.audioTest(slMusic.getValue(), true);
+			}
+
+		//	else if (!SoundPlayer.getInstance().isPlaying() && cbMusic.isSelected()) {
+				// TODO launch music in clever way
+		//		viewer.audioTest(slMusic.getValue(), true);
+		//	}
+		}
+
+		if (e.getSource().equals(cbAudio) || e.getSource().equals(slEffects)) {
+			if (cbAudio.isSelected()) {
+				viewer.audioTest(slEffects.getValue(), false);
+			}
+			else if (!cbAudio.isSelected()) {
+				viewer.audioTest(1, false);
+			}
+		}
+
+	}
 }

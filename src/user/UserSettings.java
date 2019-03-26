@@ -71,9 +71,10 @@ public class UserSettings{
 	 */
 	public void writeSettings(HashMap<String, Integer> userSettings) {
 		this.userSettings = userSettings;
-		if(FileHandler.writeObject(FILE_NAME, userSettings)) {
-			JOptionPane.showMessageDialog(null, "Settings were successfully saved!");
-		}
+		FileHandler.writeObject(FILE_NAME, userSettings);
+//		if(FileHandler.writeObject(FILE_NAME, userSettings)) {
+//			JOptionPane.showMessageDialog(null, "Settings were successfully saved!");
+//		}
 	}
 	
 	/**

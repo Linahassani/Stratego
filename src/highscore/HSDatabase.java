@@ -167,9 +167,11 @@ public class HSDatabase {
 	public void addPlayer(String username) throws SQLException {
 		boolean playerexists = false;
 		String checkPlayerQuery = "Select username from users";
-		String addplayerQuery = "insert into users(userid,username, nrofgames, victories) values (" + idNumber + ",'" + username + "',0,0)";
+		String addplayerQuery = "insert into users(userid,username, nrofgames, victories) values (?,?,0,0)";
+		
 		
 		PreparedStatement pst = conn.prepareStatement(checkPlayerQuery);
+		
 		ResultSet rs = pst.executeQuery();
 		
 		while(rs.next()) {
@@ -182,6 +184,8 @@ public class HSDatabase {
 		}
 		if(!playerexists) {
 			PreparedStatement psAdd = conn.prepareStatement(addplayerQuery);
+			psAdd.setInt(1, idNumber);
+			psAdd.setString(2, username);
 			psAdd.executeUpdate();
 		}
 		
